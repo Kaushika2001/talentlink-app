@@ -1,16 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap');
-@import 'tailwindcss';
+/* Import the Nunito font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 
-:root {
-  --color-primary: #222831;
-  --color-primary-variant: #393e46;
-  --color-secondary: #dfd0b8;
-  --color-error: #b00020;
-}
+/* Inject Tailwind's base, components, and utilities styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Set the default font and background color for the whole app */
 body {
-  font-family: 'Nunito', sans-serif;
-  background-color: #ffffff;
-  margin: 0;
-  padding: 0;
+  @apply font-nunito bg-background;
 }
