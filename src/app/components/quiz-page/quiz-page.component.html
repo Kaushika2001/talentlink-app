@@ -1,0 +1,194 @@
+
+<div class="flex h-screen bg-background font-nunito">
+  <!-- Sidebar with Question Navigator -->
+  <aside class="w-80 flex-shrink-0 bg-primary border-r border-primary-variant flex flex-col overflow-hidden">
+    <!-- Quiz Title -->
+    <div class="p-6 border-b border-primary-variant">
+      <h2 class="text-h3 font-semibold text-white mb-4">{{ quizTitle }}</h2>
+      
+      <!-- Progress Info -->
+      <div class="flex flex-col gap-2">
+        <div class="h-2 bg-primary-variant rounded-full overflow-hidden">
+          <div 
+            class="h-full bg-gradient-to-r from-secondary to-secondary transition-all duration-300"
+            [style.width.%]="((currentQuestionIndex + 1) / questions.length) * 100">
+          </div>
+        </div>
+        <span class="text-body text-gray-300">
+          Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Question Navigator -->
+    <div class="flex-1 overflow-y-auto p-4">
+      <h3 class="text-sm font-semibold text-gray-300 mb-3 uppercase">Questions</h3>
+      <div class="grid grid-cols-5 gap-2">
+        <button
+          *ngFor="let question of questions; let i = index"
+          (click)="goToQuestion(i)"
+          class="aspect-square rounded-lg text-sm font-semibold transition-all duration-200"
+          [class.bg-secondary]="i === currentQuestionIndex"
+          [class.text-primary]="i === currentQuestionIndex"
+          [class.bg-primary-variant]="i !== currentQuestionIndex && !isAnswered(question)"
+          [class.text-gray-300]="i !== currentQuestionIndex && !isAnswered(question)"
+          [class.bg-green-600]="i !== currentQuestionIndex && isAnswered(question) && showResults && isCorrect(question)"
+          [class.bg-red-600]="i !== currentQuestionIndex && isAnswered(question) && showResults && !isCorrect(question)"
+          [class.bg-gray-600]="i !== currentQuestionIndex && isAnswered(question) && !showResults"
+          [class.text-white]="i !== currentQuestionIndex && isAnswered(question)">
+          {{ i + 1 }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="p-4 border-t border-primary-variant">
+      <button 
+        (click)="backToModule()"
+        class="w-full px-4 py-3 rounded-md text-body font-medium transition-all duration-200 bg-gray-700 text-white hover:bg-gray-600">
+        ← Back to Module
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Quiz Area -->
+  <main class="flex-1 min-w-0 flex flex-col overflow-hidden">
+    <!-- Quiz Content -->
+    <div *ngIf="!showResults" class="flex-1 flex flex-col bg-white m-4 rounded-lg shadow-md overflow-hidden">
+      <!-- Question -->
+      <div class="p-6 border-b border-gray-200">
+        <span class="text-sm text-gray-500 font-medium">Question {{ currentQuestionIndex + 1 }}</span>
+        <h1 class="text-h2 font-semibold text-primary mt-2">{{ currentQuestion.question }}</h1>
+      </div>
+
+      <!-- Options -->
+      <div class="flex-1 p-6 overflow-auto">
+        <div class="max-w-3xl space-y-3">
+          <button
+            *ngFor="let option of currentQuestion.options; let i = index"
+            (click)="selectAnswer(i)"
+            class="w-full p-4 text-left rounded-lg border-2 transition-all duration-200"
+            [class.border-primary]="currentQuestion.selectedAnswer === i"
+            [class.bg-secondary]="currentQuestion.selectedAnswer === i"
+            [class.bg-opacity-20]="currentQuestion.selectedAnswer === i"
+            [class.border-gray-200]="currentQuestion.selectedAnswer !== i"
+            [class.hover:border-gray-400]="currentQuestion.selectedAnswer !== i">
+            <div class="flex items-center gap-3">
+              <span 
+                class="flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold flex-shrink-0"
+                [class.bg-primary]="currentQuestion.selectedAnswer === i"
+                [class.text-white]="currentQuestion.selectedAnswer === i"
+                [class.bg-gray-200]="currentQuestion.selectedAnswer !== i"
+                [class.text-gray-600]="currentQuestion.selectedAnswer !== i">
+                {{ getOptionLabel(i) }}
+              </span>
+              <span class="text-body text-primary">{{ option }}</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="p-6 border-t border-gray-200 bg-secondary bg-opacity-20">
+        <div class="flex justify-between items-center max-w-3xl">
+          <button
+            (click)="previousQuestion()"
+            [disabled]="currentQuestionIndex === 0"
+            class="px-6 py-3 rounded-md text-body font-medium transition-all duration-200 bg-gray-300 text-gray-700 hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed">
+            ← Previous
+          </button>
+
+          <span class="text-body text-gray-600">
+            {{ currentQuestionIndex + 1 }} / {{ questions.length }}
+          </span>
+
+          <button
+            *ngIf="currentQuestionIndex < questions.length - 1"
+            (click)="nextQuestion()"
+            class="px-6 py-3 rounded-md text-body font-medium transition-all duration-200 bg-primary text-white hover:bg-primary-variant">
+            Next →
+          </button>
+
+          <button
+            *ngIf="currentQuestionIndex === questions.length - 1"
+            (click)="submitQuiz()"
+            [disabled]="!allQuestionsAnswered()"
+            class="px-6 py-3 rounded-md text-body font-medium transition-all duration-200 bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            Submit Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div *ngIf="showResults" class="flex-1 flex flex-col bg-white m-4 rounded-lg shadow-md overflow-hidden">
+      <!-- Results -->
+      <div class="p-6 border-b border-gray-200 bg-gradient-to-r from-primary to-primary-variant text-white">
+        <h1 class="text-h2 font-semibold">Quiz Results</h1>
+        <p class="text-body mt-2 opacity-90">{{ getScoreMessage() }}</p>
+      </div>
+
+      <!-- Score Display -->
+      <div class="p-6 bg-secondary bg-opacity-20">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="inline-block">
+            <div class="text-6xl font-bold text-primary mb-2">{{ getScorePercentage() }}%</div>
+            <div class="text-h3 text-gray-600">{{ score }} out of {{ questions.length }} correct</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Results -->
+      <div class="flex-1 p-6 overflow-auto">
+        <div class="max-w-3xl mx-auto space-y-4">
+          <h2 class="text-h3 font-semibold text-primary mb-4">Review Your Answers</h2>
+          
+          <div *ngFor="let question of questions; let i = index" 
+               class="p-4 rounded-lg border-2"
+               [class.border-green-500]="isCorrect(question)"
+               [class.bg-green-50]="isCorrect(question)"
+               [class.border-red-500]="!isCorrect(question)"
+               [class.bg-red-50]="!isCorrect(question)">
+            <div class="flex items-start gap-3 mb-3">
+              <span 
+                class="flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold flex-shrink-0"
+                [class.bg-green-600]="isCorrect(question)"
+                [class.bg-red-600]="!isCorrect(question)"
+                [class.text-white]="true">
+                {{ isCorrect(question) ? '✓' : '✗' }}
+              </span>
+              <div class="flex-1">
+                <p class="font-semibold text-primary mb-2">{{ i + 1 }}. {{ question.question }}</p>
+                <p class="text-body text-gray-600 mb-1">
+                  <strong>Your answer:</strong> {{ question.options[question.selectedAnswer!] }}
+                </p>
+                <p class="text-body text-gray-600 mb-2">
+                  <strong>Correct answer:</strong> {{ question.options[question.correctAnswer] }}
+                </p>
+                <p class="text-sm text-gray-500 italic" *ngIf="question.explanation">
+                  {{ question.explanation }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="p-6 border-t border-gray-200 bg-secondary bg-opacity-20">
+        <div class="flex gap-3 max-w-3xl mx-auto">
+          <button
+            (click)="restartQuiz()"
+            class="flex-1 px-6 py-3 rounded-md text-body font-medium transition-all duration-200 bg-primary text-white hover:bg-primary-variant">
+            Retake Quiz
+          </button>
+          <button
+            (click)="backToModule()"
+            class="flex-1 px-6 py-3 rounded-md text-body font-medium transition-all duration-200 bg-secondary text-primary hover:opacity-90">
+            Back to Module
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
