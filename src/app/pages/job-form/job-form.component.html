@@ -1,11 +1,31 @@
 <div class="min-h-screen bg-background p-8">
-  <div class="max-w-4xl mx-auto">
+  <div class="max-w-7xl mx-auto">
     <!-- Header -->
     <div class="mb-8">
-      <h1 class="text-4xl font-bold text-primary mb-2">
+      <!-- Back Button -->
+      <button
+        type="button"
+        (click)="goBack()"
+        class="flex items-center gap-2 mb-4 transition-colors duration-150"
+        [style.color]="'#6B7280'"
+        onmouseover="this.style.color='#111827'"
+        onmouseout="this.style.color='#6B7280'"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        <span class="text-sm font-medium">Back to Jobs</span>
+      </button>
+
+      <h1 class="text-3xl font-bold mb-1" [style.color]="'#222831'">
         {{ isEditMode ? 'Edit Job Posting' : 'Create New Job Posting' }}
       </h1>
-      <p class="text-gray-600">
+      <p class="text-gray-500 text-sm">
         {{
           isEditMode
             ? 'Update the job details below'

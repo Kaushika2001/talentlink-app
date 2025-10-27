@@ -62,6 +62,10 @@ export class JobFormComponent implements OnInit {
     }
   }
 
+  goBack() {
+    this.router.navigate(['/jobs']);
+  }
+
   loadJobData(id: number) {
     // In a real app, load from a service
     this.jobTitle = 'Senior Frontend Developer';

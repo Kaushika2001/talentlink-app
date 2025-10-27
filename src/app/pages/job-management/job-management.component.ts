@@ -22,6 +22,12 @@ export class JobManagementComponent {
     { id: 2, title: 'Backend Engineer', company: 'Innovation Labs', status: 'Open' },
     { id: 3, title: 'Full Stack Developer', company: 'Digital Solutions', status: 'Closed' },
     { id: 4, title: 'DevOps Engineer', company: 'Cloud Systems', status: 'Open' },
+    { id: 5, title: 'UI/UX Designer', company: 'Creative Agency', status: 'Open' },
+    { id: 6, title: 'Product Manager', company: 'Startup Inc', status: 'Open' },
+    { id: 7, title: 'Data Scientist', company: 'Analytics Pro', status: 'Closed' },
+    { id: 8, title: 'Mobile Developer', company: 'App Solutions', status: 'Open' },
+    { id: 9, title: 'QA Engineer', company: 'Quality Systems', status: 'Open' },
+    { id: 10, title: 'System Architect', company: 'Enterprise Tech', status: 'Closed' },
   ];
 
   constructor(private router: Router) {}
