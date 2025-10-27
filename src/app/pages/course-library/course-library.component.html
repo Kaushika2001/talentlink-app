@@ -1,0 +1,111 @@
+<div class="container mx-auto px-6 py-8">
+  <!-- Header Section -->
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-h1 font-bold text-primary">Course Library</h1>
+      <p class="text-body text-primary-variant mt-2">Manage all e-learning courses and training materials</p>
+    </div>
+    <button 
+      routerLink="/admin/courses/create"
+      class="bg-primary hover:bg-primary-variant text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
+    >
+      Create New Course
+    </button>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <div class="flex gap-4">
+      <!-- Search Input -->
+      <div class="flex-1">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          placeholder="Search courses by title or description..."
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Courses Table -->
+  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <table class="w-full">
+      <thead class="bg-primary">
+        <tr>
+          <th class="px-6 py-4 text-left text-sm font-semibold text-background uppercase tracking-wider">
+            Course Title
+          </th>
+          <th class="px-6 py-4 text-left text-sm font-semibold text-background uppercase tracking-wider">
+            Description
+          </th>
+          <th class="px-6 py-4 text-left text-sm font-semibold text-background uppercase tracking-wider">
+            Modules
+          </th>
+          <th class="px-6 py-4 text-left text-sm font-semibold text-background uppercase tracking-wider">
+            Status
+          </th>
+          <th class="px-6 py-4 text-left text-sm font-semibold text-background uppercase tracking-wider">
+            Last Updated
+          </th>
+          <th class="px-6 py-4 text-left text-sm font-semibold text-background uppercase tracking-wider">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let course of filteredCourses" class="hover:bg-gray-50 transition-colors duration-150">
+          <td class="px-6 py-4">
+            <div class="text-sm font-medium text-primary">{{ course.title }}</div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="text-sm text-primary-variant max-w-md truncate">{{ course.description }}</div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="text-sm text-primary-variant">{{ course.modulesCount }} modules</div>
+          </td>
+          <td class="px-6 py-4">
+            <span 
+              [class]="'px-3 py-1 text-xs font-medium rounded-full ' + getStatusColor(course.status)"
+            >
+              {{ course.status }}
+            </span>
+          </td>
+          <td class="px-6 py-4">
+            <div class="text-sm text-primary-variant">
+              {{ course.updatedAt | date:'mediumDate' }}
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <button 
+                [routerLink]="['/admin/courses/edit', course.id]"
+                class="px-4 py-2 text-primary bg-secondary rounded-lg hover:text-primary-variant transition-colors duration-200"
+              >
+                Edit
+              </button>
+              <button 
+                (click)="deleteCourse(course.id)"
+                class="px-4 py-2 text-error border border-error rounded-lg hover:text-white hover:bg-error transition-colors duration-200 ml-4"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredCourses.length === 0" class="text-center py-12">
+      <div class="text-primary-variant text-body mb-4">No courses found</div>
+      <button 
+        routerLink="/admin/courses/create"
+        class="bg-primary hover:bg-primary-variant text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
+      >
+        Create Your First Course
+      </button>
+    </div>
+  </div>
+</div>

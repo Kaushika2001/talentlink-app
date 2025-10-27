@@ -1,0 +1,348 @@
+<div class="container mx-auto px-6 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-h1 font-bold text-primary">
+      {{ isEditMode ? 'Edit Course' : 'Create New Course' }}
+    </h1>
+    <p class="text-body text-primary-variant mt-2">
+      Build comprehensive e-learning courses with modules and quizzes
+    </p>
+  </div>
+
+ <!-- Progress Steps -->
+<div class="bg-primary-variant rounded-lg shadow-md p-6 mb-6">
+  <div class="flex justify-between items-center">
+    <!-- Step 1: Basic Info -->
+    <div 
+      [class]="'flex items-center ' + (currentStep >= 1 ? 'text-white' : 'text-gray-300')"
+      (click)="currentStep = 1"
+      class="cursor-pointer"
+    >
+      <div [class]="'w-8 h-8 rounded-full flex items-center justify-center mr-2 border-2 ' + 
+        (currentStep >= 1 ? 'bg-secondary border-secondary text-primary' : 'border-gray-300 text-gray-300')">
+        1
+      </div>
+      <span class="font-semibold">Basic Info</span>
+    </div>
+    
+    <!-- Connector Line 1 -->
+    <div class="flex-1 h-1 mx-4 bg-gray-600 rounded-full">
+      <div class="h-1 bg-secondary rounded-full transition-all duration-300" 
+           [style.width.%]="currentStep >= 2 ? 100 : 0"></div>
+    </div>
+    
+    <!-- Step 2: Modules -->
+    <div 
+      [class]="'flex items-center ' + (currentStep >= 2 ? 'text-white' : 'text-gray-300')"
+      (click)="currentStep >= 2 && (currentStep = 2)"
+      [class.cursor-pointer]="currentStep >= 2"
+      [class.cursor-not-allowed]="currentStep < 2"
+    >
+      <div [class]="'w-8 h-8 rounded-full flex items-center justify-center mr-2 border-2 ' + 
+        (currentStep >= 2 ? 'bg-secondary border-secondary text-primary' : 'border-gray-300 text-gray-300')">
+        2
+      </div>
+      <span class="font-semibold">Modules</span>
+    </div>
+    
+    <!-- Connector Line 2 -->
+    <div class="flex-1 h-1 mx-4 bg-gray-600 rounded-full">
+      <div class="h-1 bg-secondary rounded-full transition-all duration-300" 
+           [style.width.%]="currentStep >= 3 ? 100 : 0"></div>
+    </div>
+    
+    <!-- Step 3: Quiz -->
+    <div 
+      [class]="'flex items-center ' + (currentStep >= 3 ? 'text-white' : 'text-gray-300')"
+      (click)="currentStep >= 3 && (currentStep = 3)"
+      [class.cursor-pointer]="currentStep >= 3"
+      [class.cursor-not-allowed]="currentStep < 3"
+    >
+      <div [class]="'w-8 h-8 rounded-full flex items-center justify-center mr-2 border-2 ' + 
+        (currentStep >= 3 ? 'bg-secondary border-secondary text-primary' : 'border-gray-300 text-gray-300')">
+        3
+      </div>
+      <span class="font-semibold">Quiz</span>
+    </div>
+  </div>
+</div>
+
+  <!-- Step 1: Basic Information -->
+
+  <div *ngIf="currentStep === 1" class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-h2 font-bold text-primary mb-6">Course Information</h2>
+    
+     <div class="bg-gray-100 rounded-lg p-6 shadow-md p-6 mb-6">
+    <div class="space-y-6">
+      <!-- Course Title -->
+      <div>
+        <label class="block text-sm font-medium text-primary-variant mb-2">
+          Course Title *
+        </label>
+        <input
+          type="text"
+          [(ngModel)]="course.title"
+          placeholder="Enter course title"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        >
+      </div>
+
+      <!-- Course Description -->
+      <div>
+        <label class="block text-sm font-medium text-primary-variant mb-2">
+          Course Description *
+        </label>
+        <textarea
+          [(ngModel)]="course.description"
+          rows="4"
+          placeholder="Describe what students will learn in this course"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        ></textarea>
+      </div>
+
+      <!-- Passing Score -->
+      <div>
+        <label class="block text-sm font-medium text-primary-variant mb-2">
+          Required Passing Score
+        </label>
+        <input
+          type="number"
+          [(ngModel)]="course.requiredPassingScore"
+          min="0"
+          max="100"
+          class="w-32 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        >
+        <span class="ml-2 text-primary-variant">%</span>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex justify-end mt-8">
+      <button
+        (click)="nextStep()"
+        [disabled]="!isStepValid(1)"
+        [class]="'px-6 py-3 rounded-lg font-semibold transition-colors duration-200 ' + 
+          (isStepValid(1) ? 'bg-primary hover:bg-primary-variant text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed')"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+
+  <!-- Step 2: Module Builder -->
+  <div *ngIf="currentStep === 2" class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-h2 font-bold text-primary mb-6">Course Modules</h2>
+
+    <!-- Add New Module Form -->
+    <div class="bg-gray-100 rounded-lg p-6 shadow-md p-6 mb-6">
+      <h3 class="text-h3 font-semibold text-primary mb-4">Add New Module</h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label class="block text-sm font-medium text-primary-variant mb-2">
+            Module Title *
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="newModule.title"
+            placeholder="Enter module title"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          >
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-primary-variant mb-2">
+            Content Type
+          </label>
+          <select
+            [(ngModel)]="newModule.type"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          >
+            <option value="video">Video</option>
+            <option value="pdf">PDF Document</option>
+            <option value="text">Text Content</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- File Upload -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-primary-variant mb-2">
+          Upload Content
+        </label>
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          [accept]="newModule.type === 'video' ? 'video/*' : newModule.type === 'pdf' ? '.pdf' : ''"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        >
+        <div *ngIf="uploadedFile" class="text-sm text-green-600 mt-2">
+          ✓ {{ uploadedFile.name }}
+        </div>
+      </div>
+
+      <button
+        (click)="addModule()"
+        [disabled]="!newModule.title.trim()"
+        class="bg-primary hover:bg-primary-variant text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+      >
+        Add Module
+      </button>
+    </div>
+
+    <!-- Modules List -->
+    <div *ngIf="course.modules.length > 0">
+      <h3 class="text-h3 font-semibold text-primary mb-4">Course Modules ({{ course.modules.length }})</h3>
+      <div class="space-y-3">
+        <div 
+          *ngFor="let module of course.modules"
+          class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+        >
+          <div class="flex items-center">
+            <div [class]="'w-10 h-10 rounded flex items-center justify-center mr-4 ' + 
+              (module.type === 'video' ? 'bg-red-100 text-red-600' : 
+               module.type === 'pdf' ? 'bg-blue-100 text-blue-600' : 
+               'bg-green-100 text-green-600')">
+              {{ module.type === 'video' ? '▶' : module.type === 'pdf' ? '📄' : '📝' }}
+            </div>
+            <div>
+              <div class="font-medium text-primary">{{ module.title }}</div>
+              <div class="text-sm text-primary-variant capitalize">{{ module.type }}</div>
+            </div>
+          </div>
+          <button
+            (click)="removeModule(module.id)"
+            class="px-3 py-2 border border-error rounded-lg text-error rounded-lg font-semibold hover:bg-error hover:text-white transition-colors duration-200"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex justify-between mt-8">
+      <button
+        (click)="prevStep()"
+       class="px-6 py-3 bg-gray-300 text-primary rounded-lg font-semibold hover:bg-primary-variant hover:text-white transition-colors duration-200"
+      >
+        Back
+      </button>
+      <button
+        (click)="nextStep()"
+        [disabled]="!isStepValid(2)"
+        [class]="'px-6 py-3 rounded-lg font-semibold transition-colors duration-200 ' + 
+          (isStepValid(2) ? 'bg-primary hover:bg-primary-variant text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed')"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 3: Quiz Builder -->
+  <div *ngIf="currentStep === 3" class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-h2 font-bold text-primary mb-6">Course Quiz</h2>
+
+    <!-- Add New Question Form -->
+    <div class="bg-gray-100 shadow-md p-6 rounded-lg p-6 mb-6">
+      <h3 class="text-h3 font-semibold text-primary mb-4">Add Quiz Question</h3>
+      
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-primary-variant mb-2">
+          Question *
+        </label>
+        <input
+          type="text"
+          [(ngModel)]="newQuestion.question"
+          placeholder="Enter your question"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        >
+      </div>
+
+      <!-- Answer Options -->
+      <div class="space-y-3 mb-4">
+        <label class="block text-sm font-medium text-primary-variant">Answer Options *</label>
+        <div *ngFor="let option of newQuestion.options; let i = index" class="flex items-center">
+          <input
+            type="radio"
+            [name]="'correctAnswer' + newQuestion.id"
+            [value]="i"
+            [(ngModel)]="newQuestion.correctAnswer"
+            class="mr-3"
+          >
+          <input
+            type="text"
+            [(ngModel)]="newQuestion.options[i]"
+            placeholder="Option {{ i + 1 }}"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          >
+        </div>
+      </div>
+
+      <button
+        (click)="addQuestion()"
+       [disabled]="!isNewQuestionValid()"
+        class="bg-primary hover:bg-primary-variant text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+      >
+        Add Question
+      </button>
+    </div>
+
+    <!-- Questions List -->
+    <div *ngIf="course.quiz.length > 0">
+      <h3 class="text-h3 font-semibold text-primary mb-4">Quiz Questions ({{ course.quiz.length }})</h3>
+      <div class="space-y-4">
+        <div 
+          *ngFor="let question of course.quiz; let i = index"
+          class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+        >
+          <div class="flex justify-between items-start mb-3">
+            <div class="font-medium text-primary">Q{{ i + 1 }}: {{ question.question }}</div>
+            <button
+              (click)="removeQuestion(question.id)"
+              class="px-3 py-2 border border-error rounded-lg text-error rounded-lg font-semibold hover:bg-error hover:text-white transition-colors duration-200"
+          >
+            Remove
+            </button>
+          </div>
+          <div class="space-y-2">
+            <div 
+              *ngFor="let option of question.options; let j = index"
+              [class]="'px-3 py-2 rounded ' + (j === question.correctAnswer ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-gray-100 text-gray-800')"
+            >
+             {{ getOptionLetter(j) }}. {{ option }}
+              <span *ngIf="j === question.correctAnswer" class="ml-2 text-green-600">✓ Correct</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation and Action Buttons -->
+    <div class="flex justify-between mt-8">
+      <button
+        (click)="prevStep()"
+        class="px-6 py-3 bg-gray-300 text-primary rounded-lg font-semibold hover:bg-primary-variant hover:text-white transition-colors duration-200"
+      >
+         Back
+      </button>
+      <div class="space-x-4">
+        <button
+          (click)="saveCourse()"
+          class="px-6 py-3  bg-secondary text-primary rounded-lg font-semibold hover:bg-orange-100  transition-colors duration-200"
+        >
+          Save as Draft
+        </button>
+        <button
+          (click)="publishCourse()"
+          [disabled]="!isStepValid(3)"
+          [class]="'px-6 py-3 rounded-lg font-semibold transition-colors duration-200 ' + 
+            (isStepValid(3) ? 'bg-primary hover:bg-primary-variant text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed')"
+        >
+          Publish Course
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
