@@ -1,0 +1,250 @@
+/* Apply Nunito font globally for this component */
+* {
+  font-family: 'Nunito', sans-serif;
+}
+
+.registration-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #222831 0%, #393E46 100%);
+  padding: 2rem;
+}
+
+.registration-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1000px;
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Branding Section */
+.branding-section {
+  background: linear-gradient(135deg, #222831 0%, #393E46 100%);
+  color: #FFFFFF;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.branding-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  opacity: 0.95;
+  color: #DFD0B8;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1rem;
+  color: #FFFFFF;
+}
+
+.feature-item .icon {
+  background: rgba(223, 208, 184, 0.2);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #DFD0B8;
+}
+
+/* Form Section */
+.form-section {
+  padding: 3rem;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.form-content h2 {
+  color: #222831;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.form-subtitle {
+  color: #393E46;
+  margin-bottom: 2rem;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  color: #222831;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.required {
+  color: #B00020;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #DFD0B8;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #222831;
+}
+
+.form-group input.error {
+  border-color: #B00020;
+}
+
+/* Password Hint */
+.password-hint {
+  font-size: 0.8rem;
+  color: #393E46;
+  margin-top: 0.3rem;
+}
+
+/* Error Messages */
+.error-message {
+  color: #B00020;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  display: block;
+  font-weight: 600;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: start;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  margin-top: 0.2rem;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #222831;
+}
+
+.checkbox-label span {
+  color: #393E46;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.link {
+  color: #222831;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: #393E46;
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #222831 0%, #393E46 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 1rem;
+  font-family: 'Nunito', sans-serif;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(34, 40, 49, 0.4);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Success Message */
+.success-message {
+  background-color: #DFD0B8;
+  color: #222831;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
+  border: 1px solid #222831;
+}
+
+/* Login Link */
+.login-link {
+  text-align: center;
+  color: #393E46;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registration-container {
+    grid-template-columns: 1fr;
+  }
+
+  .branding-section {
+    padding: 2rem;
+  }
+
+  .branding-content h1 {
+    font-size: 2rem;
+  }
+
+  .form-section {
+    padding: 2rem;
+  }
+}

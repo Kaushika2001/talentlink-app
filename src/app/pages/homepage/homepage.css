@@ -1,0 +1,17 @@
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Offset for sticky navbar */
+}
+
+/* RouterLinkActive styling for the active nav item */
+a.active {
+  color: #DFD0B8 !important;
+}
+
+/* Ensure search input is interactive */
+input[type="text"] {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
