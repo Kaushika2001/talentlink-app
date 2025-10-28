@@ -18,6 +18,8 @@ import { CourseLibraryComponent } from './pages/course-library/course-library.co
 import { CourseBuilderComponent } from './pages/course-builder/course-builder.component';
 
 // You will also import Member 1 (Dashboard) and Member 4 (Applicant/Employee) components here
+import { EmployeeManagementComponent } from './admin/employee-management/employee-management';
+import { ApplicantManagementComponent } from './admin/applicant-management/applicant-management';
 
 export const routes: Routes = [
   {
@@ -44,9 +46,8 @@ export const routes: Routes = [
       { path: 'courses/edit/:id', component: CourseBuilderComponent },
 
       // --- Member 1 & 4 Routes will go here too ---
-      // { path: 'dashboard', component: AdminDashboardComponent },
-      // { path: 'applicants', component: ApplicantManagementComponent },
-      // { path: 'employees', component: EmployeeManagementComponent },
+      { path: 'employee-management', component: EmployeeManagementComponent },
+      { path: 'applicant-management', component: ApplicantManagementComponent },
     ],
   },
 ];

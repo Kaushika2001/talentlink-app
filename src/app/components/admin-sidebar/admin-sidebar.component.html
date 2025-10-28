@@ -51,7 +51,7 @@
   <!-- Navigation Menu -->
   <nav class="flex-1 py-6 overflow-y-auto">
     <ul class="space-y-2 px-3">
-      <li *ngFor="let item of menuItems">
+      <li *ngFor="let item of menuItems" class="space-y-1">
         <a
           [routerLink]="item.route"
           routerLinkActive="active"
@@ -74,6 +74,23 @@
             {{ item.label }}
           </span>
         </a>
+
+        <!-- Nested children under Job Management -->
+        <ul *ngIf="!isSidebarCollapsed && item.children" class="ml-10 space-y-1">
+          <li *ngFor="let child of item.children">
+            <a
+              [routerLink]="child.route"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: false }"
+              class="flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors duration-200 hover:bg-[var(--color-primary-variant)]/40"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path [attr.d]="getIconPath(child.icon || 'users')" />
+              </svg>
+              <span>{{ child.label }}</span>
+            </a>
+          </li>
+        </ul>
       </li>
     </ul>
   </nav>
@@ -104,6 +121,7 @@
         class="p-2 rounded-lg transition-colors duration-200"
         onmouseover="this.style.backgroundColor='var(--color-primary-variant)'"
         onmouseout="this.style.backgroundColor='transparent'"
+        (click)="onLogout()"
         title="Logout"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

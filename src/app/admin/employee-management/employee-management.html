@@ -1,60 +1,87 @@
+<div class="p-8">
+
 <h1 class="text-h2 font-bold text-primary mb-6">Employee Management</h1>
 
-<div class="mb-6 p-4 bg-white rounded-lg shadow-md">
-  <label for="search" class="block text-sm font-semibold text-gray-700 mb-1">Search Employees</label>
-  <input 
-    type="text" 
-    id="search"
-    [(ngModel)]="searchTerm"
-    (input)="filterEmployees()"
-    placeholder="Search by name, email, title, or department..."
-    class="mt-1 block w-full px-3 py-2 text-body border border-gray-300 rounded-md shadow-sm 
-           focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm"
-  />
+<div class="mb-6 p-4 bg-white rounded-lg shadow-md grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="md:col-span-2">
+    <label for="search" class="block text-sm font-semibold text-gray-700 mb-1">Search Employees</label>
+    <input
+      type="text"
+      id="search"
+      [(ngModel)]="searchTerm"
+      (input)="filterEmployees()"
+      placeholder="Search by name, email, title, or department..."
+      class="mt-1 block w-full px-3 py-2 text-body border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm"
+    />
+  </div>
+  <div>
+    <label for="progress" class="block text-sm font-semibold text-gray-700 mb-1">Progress Filter</label>
+    <select
+      id="progress"
+      [(ngModel)]="progressFilter"
+      (change)="filterEmployees()"
+      class="mt-1 block w-full px-3 py-2 text-body border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm"
+    >
+      <option value="">All</option>
+      <option>Overdue</option>
+      <option>On Track</option>
+    </select>
+  </div>
 </div>
 
-<div class="bg-white shadow-md rounded-lg overflow-x-auto"> <table class="min-w-full divide-y divide-gray-200">
-    <thead class="bg-primary text-white"> <tr>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Name</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Contact</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Role</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Actions</th>
+<div class="bg-white shadow-md rounded-lg">
+  <table class="w-full table-fixed divide-y divide-gray-200 text-sm">
+    <thead class="bg-primary text-white text-xs">
+      <tr>
+        <th scope="col" class="px-4 py-3 text-left font-bold uppercase tracking-wider w-[16%]">Name</th>
+        <th scope="col" class="px-4 py-3 text-left font-bold uppercase tracking-wider w-[18%] hidden md:table-cell">Contact</th>
+        <th scope="col" class="px-4 py-3 text-left font-bold uppercase tracking-wider w-[16%]">Role</th>
+        <th scope="col" class="px-4 py-3 text-left font-bold uppercase tracking-wider w-[16%]"><span class="hidden sm:inline">Courses</span><span class="sm:hidden">Crse</span></th>
+        <th scope="col" class="px-4 py-3 text-left font-bold uppercase tracking-wider w-[10%]">Overdue</th>
+        <th scope="col" class="px-4 py-3 text-left font-bold uppercase tracking-wider w-[14%] hidden md:table-cell">Career Path</th>
+        <th scope="col" class="px-4 py-3 text-left font-bold uppercase tracking-wider w-[10%] hidden lg:table-cell">Skills</th>
+        <th scope="col" class="px-4 py-3 text-left font-bold uppercase tracking-wider w-[20%]">Actions</th>
       </tr>
     </thead>
-    <tbody class="bg-white divide-y divide-gray-200 text-body"> <tr *ngFor="let emp of filteredEmployees" class="hover:bg-gray-50 transition-colors duration-150">
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ emp.name }}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ emp.email }}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+    <tbody class="bg-white divide-y divide-gray-200 text-body">
+      <tr *ngFor="let emp of filteredEmployees" class="hover:bg-gray-50 transition-colors duration-150">
+        <td class="px-4 py-3 font-medium text-gray-900 break-words whitespace-normal">{{ emp.name }}</td>
+        <td class="px-4 py-3 text-gray-600 break-words whitespace-normal hidden md:table-cell">{{ emp.email }}</td>
+        <td class="px-4 py-3 text-gray-600">
           <div>{{ emp.title }}</div>
           <div class="text-xs text-gray-500">{{ emp.department }}</div>
         </td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-          
-          <button 
-            (click)="viewProfile(emp.id)"
-            class="px-3 py-1.5 rounded-md text-sm font-semibold
-                   bg-secondary text-primary-variant border border-secondary  
-                   hover:bg-secondary/80 hover:border-secondary/80 transition-colors duration-200"> 
-            View Profile
-          </button>
-          
-          <button 
-            (click)="assignCareerPath(emp.id)"
-            class="px-3 py-1.5 rounded-md text-sm font-semibold 
-                   bg-primary text-white border border-primary
-                   hover:bg-primary-variant hover:border-primary-variant transition-colors duration-200">
-            Assign Career Path
-          </button>
-          
+        <td class="px-4 py-3 text-gray-600">
+          <div class="flex items-center gap-2">
+            <div class="w-full max-w-[120px] bg-gray-200 rounded-full h-2.5">
+              <div class="bg-primary h-2.5 rounded-full" [style.width.%]="(emp.coursesCompleted/emp.coursesTotal)*100"></div>
+            </div>
+            <span>{{ emp.coursesCompleted }}/{{ emp.coursesTotal }}</span>
+          </div>
+        </td>
+        <td class="px-4 py-3 text-sm">
+          <span class="px-2.5 py-1 rounded-full text-xs font-semibold" [ngClass]="emp.overdueCount>0 ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'">
+            {{ emp.overdueCount>0 ? emp.overdueCount + ' Due' : 'On Track' }}
+          </span>
+        </td>
+        <td class="px-4 py-3 text-sm text-gray-600 hidden md:table-cell">{{ emp.careerPath }}</td>
+        <td class="px-4 py-3 text-sm text-gray-600 hidden lg:table-cell">
+          <div class="flex flex-wrap gap-1">
+            <span *ngFor="let s of emp.skills" class="px-2 py-0.5 rounded-full bg-secondary text-primary text-xs">{{ s }}</span>
+          </div>
+        </td>
+        <td class="px-4 py-3 text-sm">
+          <div class="flex flex-wrap gap-2">
+            <button (click)="viewProfile(emp.id)" class="px-3 py-1.5 rounded-md text-xs md:text-sm font-semibold bg-secondary text-primary-variant border border-secondary hover:bg-secondary/50 hover:border-secondary/80">View</button>
+            <button (click)="assignCareerPath(emp.id)" class="px-3 py-1.5 rounded-md text-xs md:text-sm font-semibold bg-primary text-white border border-primary hover:bg-primary-variant/80 hover:border-primary-variant/50">Career Path</button>
+          </div>
         </td>
       </tr>
 
       <tr *ngIf="filteredEmployees.length === 0">
-        <td colspan="4" class="px-6 py-12 text-center text-sm text-gray-500">
-          No employees found matching your criteria.
-        </td>
+        <td colspan="8" class="px-4 py-10 text-center text-sm text-gray-500">No employees found matching your criteria.</td>
       </tr>
-
     </tbody>
   </table>
+</div>
 </div>

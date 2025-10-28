@@ -5,6 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { Employee } from '../../core/models/employee.model';
 import { AdminDataService } from '../../core/services/admin-data.service';
 
+interface EmployeeView extends Employee {
+  coursesTotal: number;
+  coursesCompleted: number;
+  overdueCount: number;
+  careerPath?: string | null;
+  skills: string[];
+}
+
 @Component({
   selector: 'app-employee-management',
   standalone: true,
@@ -12,44 +20,81 @@ import { AdminDataService } from '../../core/services/admin-data.service';
   templateUrl: './employee-management.html',
 })
 export class EmployeeManagementComponent implements OnInit {
-
-  allEmployees: Employee[] = [];
-  filteredEmployees: Employee[] = [];
-  searchTerm: string = '';
+  allEmployees: EmployeeView[] = [];
+  filteredEmployees: EmployeeView[] = [];
+  searchTerm = '';
+  progressFilter: '' | 'Overdue' | 'On Track' = '';
 
   constructor(private dataService: AdminDataService) {}
 
   ngOnInit(): void {
-    this.dataService.getEmployees().subscribe(data => {
-      this.allEmployees = data;
-      this.filteredEmployees = data;
+    this.dataService.getEmployees().subscribe((data) => {
+      // Enrich with LMS/PMS view data
+      this.allEmployees = data.map((e) => this.toView(e));
+      this.filteredEmployees = [...this.allEmployees];
     });
   }
 
-  // Updated to search across more fields
-  filterEmployees(): void {
-    const lowerSearch = this.searchTerm.toLowerCase();
-    
-    if (!lowerSearch) {
-      this.filteredEmployees = this.allEmployees; // Show all if search is empty
-      return;
-    }
-
-    this.filteredEmployees = this.allEmployees.filter(
-      emp => emp.name.toLowerCase().includes(lowerSearch) ||
-             emp.email.toLowerCase().includes(lowerSearch) ||
-             emp.title.toLowerCase().includes(lowerSearch) ||
-             emp.department.toLowerCase().includes(lowerSearch) // Added department search
-    );
+  private toView(e: Employee): EmployeeView {
+    // Mock derived data for demo
+    const coursesTotal = 6;
+    const completedSeed = (e.id % 5) + 1;
+    const coursesCompleted = Math.min(completedSeed, coursesTotal);
+    const overdueCount = e.id % 3 === 0 ? 1 : 0;
+    const careerPath = e.department.includes('Sales')
+      ? 'Sales Team Leader'
+      : e.department.includes('Logistics')
+      ? 'Logistics Coordinator'
+      : 'Core Skills';
+    const skills = [e.title.split(' ')[0], e.department, 'Communication'].filter(Boolean);
+    return { ...e, coursesTotal, coursesCompleted, overdueCount, careerPath, skills };
   }
-  
+
+  // Search and filter across multiple fields
+  filterEmployees(): void {
+    let list = [...this.allEmployees];
+    const q = this.searchTerm.toLowerCase();
+    if (q) {
+      list = list.filter(
+        (emp) =>
+          emp.name.toLowerCase().includes(q) ||
+          emp.email.toLowerCase().includes(q) ||
+          emp.title.toLowerCase().includes(q) ||
+          emp.department.toLowerCase().includes(q)
+      );
+    }
+    if (this.progressFilter === 'Overdue') {
+      list = list.filter((e) => e.overdueCount > 0);
+    } else if (this.progressFilter === 'On Track') {
+      list = list.filter((e) => e.overdueCount === 0);
+    }
+    this.filteredEmployees = list;
+  }
+
   viewProfile(employeeId: number): void {
     alert('Viewing profile for employee ID: ' + employeeId);
-    // Future: this.router.navigate(['/admin/employee', employeeId]);
   }
-  
+
   assignCareerPath(employeeId: number): void {
-    alert('Assigning career path for employee ID: ' + employeeId);
-    // Future: openAssignPathModal(employeeId);
+    const emp = this.allEmployees.find((e) => e.id === employeeId);
+    if (emp) {
+      emp.careerPath = emp.careerPath || 'Core Skills';
+      alert(`Assigned/confirmed career path for ${emp.name}`);
+    }
+  }
+
+  assignTraining(employeeId: number): void {
+    const emp = this.allEmployees.find((e) => e.id === employeeId);
+    if (emp) {
+      emp.coursesTotal += 1;
+      alert(`Assigned a new course to ${emp.name}`);
+    }
+  }
+
+  recommendForRole(employeeId: number): void {
+    const emp = this.allEmployees.find((e) => e.id === employeeId);
+    if (emp) {
+      alert(`${emp.name} has been recommended for the next role.`);
+    }
   }
 }

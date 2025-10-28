@@ -2,6 +2,22 @@
 import { Component, Output, EventEmitter } from '@angular/core'; // <-- Import Output & EventEmitter
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { AdminService } from '../../admin/services/admin.service';
+
+interface MenuChild {
+  icon: string;
+  label: string;
+  route: string;
+  active: boolean;
+}
+
+interface MenuItem {
+  icon: string;
+  label: string;
+  route: string;
+  active: boolean;
+  children?: MenuChild[];
+}
 
 
 @Component({
@@ -15,7 +31,7 @@ export class AdminSidebarComponent {
   @Output() sidebarToggled = new EventEmitter<boolean>();
   isSidebarCollapsed = false;
 
-  menuItems = [
+  menuItems: MenuItem[] = [
     {
       icon: 'dashboard',
       label: 'Dashboard',
@@ -29,32 +45,41 @@ export class AdminSidebarComponent {
       active: false,
     },
     {
-      icon: 'users',
-      label: 'Candidates',
-      route: '/admin/candidates',
-      active: false,
+          icon: 'users',
+          label: 'Employee Management',
+          route: '/admin/employee-management',
+          active: false,
+     },
+    {
+          icon: 'users',
+          label: 'Applicant Management',
+          route: '/admin/applicant-management',
+          active: false,
     },
+      
+    
+
     {
       icon: 'book',
       label: 'Courses',
       route: '/admin/courses',
       active: false,
     },
-    {
-      icon: 'chart',
-      label: 'Analytics',
-      route: '/admin/analytics',
-      active: false,
-    },
-    {
-      icon: 'settings',
-      label: 'Settings',
-      route: '/admin/settings',
-      active: false,
-    },
+    // {
+    //   icon: 'chart',
+    //   label: 'Analytics',
+    //   route: '/admin/analytics',
+    //   active: false,
+    // },
+    // {
+    //   icon: 'settings',
+    //   label: 'Settings',
+    //   route: '/admin/settings',
+    //   active: false,
+    // },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private adminService: AdminService) {}
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
@@ -65,6 +90,10 @@ export class AdminSidebarComponent {
   //   this.menuItems.forEach((item) => (item.active = item.route === route));
   //   this.router.navigate([route]);
   // }
+
+  onLogout() {
+    this.adminService.logout();
+  }
 
   getIconPath(icon: string): string {
     const icons: { [key: string]: string } = {
