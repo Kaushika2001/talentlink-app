@@ -1,0 +1,144 @@
+<!-- Employee Course Library (Open University) -->
+<div class="min-h-screen bg-background">
+  <div class="container mx-auto px-6 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-[32pt] font-bold text-primary mb-2">Open University</h1>
+      <p class="text-[14pt] text-primary-variant">Browse and enroll in courses to enhance your skills</p>
+    </div>
+
+    <!-- Search and Filters Section -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <!-- Search Bar -->
+        <div class="md:col-span-2">
+          <label class="block text-[14pt] font-medium text-primary mb-2">Search Courses</label>
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="applyFilters()"
+            placeholder="Search by title or description..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-[14pt]"
+          >
+        </div>
+
+        <!-- Skill Filter -->
+        <div>
+          <label class="block text-[14pt] font-medium text-primary mb-2">Filter by Skill</label>
+          <select
+            [(ngModel)]="selectedSkill"
+            (change)="applyFilters()"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-[14pt]"
+          >
+            <option value="">All Skills</option>
+            <option *ngFor="let skill of skills" [value]="skill">{{ skill }}</option>
+          </select>
+        </div>
+
+        <!-- Division Filter -->
+        <div>
+          <label class="block text-[14pt] font-medium text-primary mb-2">Filter by Division</label>
+          <select
+            [(ngModel)]="selectedDivision"
+            (change)="applyFilters()"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-[14pt]"
+          >
+            <option value="">All Divisions</option>
+            <option *ngFor="let division of divisions" [value]="division">{{ division }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Reset Filters Button -->
+      <div class="mt-4">
+        <button
+          (click)="resetFilters()"
+          class="px-6 py-2 text-[14pt] text-primary-variant hover:text-primary border border-primary-variant hover:border-primary rounded-lg transition-colors duration-200"
+        >
+          Reset Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- Course Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        *ngFor="let course of filteredCourses"
+        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+      >
+        <!-- Course Image -->
+        <div class="h-48 bg-gradient-to-br from-primary to-primary-variant flex items-center justify-center">
+          <div class="text-white text-center p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Course Content -->
+        <div class="p-6">
+          <h3 class="text-[18pt] font-bold text-primary mb-2">{{ course.title }}</h3>
+          <p class="text-[14pt] text-primary-variant mb-4 line-clamp-2">{{ course.description }}</p>
+
+          <!-- Course Details -->
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center text-[14pt] text-primary-variant">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>{{ course.modulesCount }} modules</span>
+            </div>
+            <div class="flex items-center text-[14pt] text-primary-variant">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{{ course.duration }}</span>
+            </div>
+            <div class="flex items-center text-[14pt] text-primary-variant">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              <span>{{ course.skill }}</span>
+            </div>
+            <div class="flex items-center text-[14pt] text-primary-variant">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <span>{{ course.division }}</span>
+            </div>
+          </div>
+
+          <!-- Enroll Button -->
+          <button
+            *ngIf="!course.enrolled"
+            (click)="enrollCourse(course.id)"
+            class="w-full bg-primary hover:bg-primary-variant text-white text-[14pt] font-semibold py-3 rounded-lg transition-colors duration-200"
+          >
+            Enroll Now
+          </button>
+          <button
+            *ngIf="course.enrolled"
+            disabled
+            class="w-full bg-secondary text-primary text-[14pt] font-semibold py-3 rounded-lg cursor-not-allowed"
+          >
+            Enrolled ✓
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Results Message -->
+    <div *ngIf="filteredCourses.length === 0" class="text-center py-12">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-primary-variant mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p class="text-[18pt] text-primary-variant">No courses found matching your criteria</p>
+      <button
+        (click)="resetFilters()"
+        class="mt-4 px-6 py-2 text-[14pt] bg-primary text-white rounded-lg hover:bg-primary-variant transition-colors duration-200"
+      >
+        Clear Filters
+      </button>
+    </div>
+  </div>
+</div>

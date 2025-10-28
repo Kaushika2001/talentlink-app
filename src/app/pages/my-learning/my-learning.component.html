@@ -1,0 +1,126 @@
+<!-- My Learning Page -->
+<div class="min-h-screen bg-background">
+  <div class="container mx-auto px-6 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-[32pt] font-bold text-primary mb-2">My Learning</h1>
+      <p class="text-[14pt] text-primary-variant">Track your enrolled courses and progress</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="bg-white rounded-lg shadow-md mb-8">
+      <div class="flex border-b border-gray-200">
+        <button
+          (click)="setActiveTab('in-progress')"
+          [class.border-primary]="activeTab === 'in-progress'"
+          [class.text-primary]="activeTab === 'in-progress'"
+          [class.text-primary-variant]="activeTab !== 'in-progress'"
+          class="flex-1 px-6 py-4 text-[14pt] font-semibold border-b-4 transition-colors duration-200 hover:text-primary"
+        >
+          In Progress ({{ inProgressCount }})
+        </button>
+        <button
+          (click)="setActiveTab('completed')"
+          [class.border-primary]="activeTab === 'completed'"
+          [class.text-primary]="activeTab === 'completed'"
+          [class.text-primary-variant]="activeTab !== 'completed'"
+          class="flex-1 px-6 py-4 text-[14pt] font-semibold border-b-4 transition-colors duration-200 hover:text-primary"
+        >
+          Completed ({{ completedCount }})
+        </button>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="p-6">
+        <!-- Course List -->
+        <div class="space-y-6">
+          <div
+            *ngFor="let course of filteredCourses"
+            class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300"
+          >
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+              <!-- Course Info -->
+              <div class="flex-1 mb-4 lg:mb-0">
+                <h3 class="text-[18pt] font-bold text-primary mb-2">{{ course.title }}</h3>
+                <p class="text-[14pt] text-primary-variant mb-4">{{ course.description }}</p>
+
+                <!-- Progress Bar (for in-progress courses) -->
+                <div *ngIf="course.status === 'in-progress'" class="mb-4">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-[14pt] text-primary-variant">Progress</span>
+                    <span class="text-[14pt] font-semibold text-primary">{{ course.progress }}%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div
+                      [ngClass]="getProgressBarColor(course.progress)"
+                      [style.width.%]="course.progress"
+                      class="h-3 rounded-full transition-all duration-300"
+                    ></div>
+                  </div>
+                  <div class="mt-2 text-[14pt] text-primary-variant">
+                    {{ course.modulesCompleted }} of {{ course.totalModules }} modules completed
+                  </div>
+                </div>
+
+                <!-- Completion Info (for completed courses) -->
+                <div *ngIf="course.status === 'completed'" class="flex items-center text-[14pt] text-green-600 mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="font-semibold">Completed on {{ course.completedDate | date:'mediumDate' }}</span>
+                </div>
+
+                <!-- Metadata -->
+                <div class="flex flex-wrap gap-4 text-[14pt] text-primary-variant">
+                  <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Enrolled: {{ course.enrolledDate | date:'shortDate' }}</span>
+                  </div>
+                  <div *ngIf="course.lastAccessed && course.status === 'in-progress'" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Last accessed: {{ course.lastAccessed | date:'shortDate' }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex flex-col gap-3 lg:ml-6">
+                <button
+                  *ngIf="course.status === 'in-progress'"
+                  (click)="continueCourse(course.id)"
+                  class="px-6 py-3 bg-primary hover:bg-primary-variant text-white text-[14pt] font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
+                >
+                  Continue Learning
+                </button>
+                <button
+                  *ngIf="course.status === 'completed'"
+                  (click)="viewCertificate(course.id)"
+                  class="px-6 py-3 bg-secondary hover:bg-primary text-primary hover:text-white text-[14pt] font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
+                >
+                  View Certificate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="filteredCourses.length === 0" class="text-center py-12">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-primary-variant mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <p class="text-[18pt] text-primary-variant mb-2">
+            {{ activeTab === 'in-progress' ? 'No courses in progress' : 'No completed courses yet' }}
+          </p>
+          <p class="text-[14pt] text-primary-variant">
+            {{ activeTab === 'in-progress' ? 'Start learning by enrolling in courses from the Open University' : 'Complete courses to see them here' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
