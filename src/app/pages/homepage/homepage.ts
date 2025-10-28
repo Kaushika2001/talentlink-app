@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class Homepage implements OnInit {
   searchQuery: string = '';
+  filteredJobs: any[] = [];
+  isSearchActive: boolean = false;
 
   // Updated to reflect actual Chandrasiri Group companies
   companies = [
@@ -75,18 +77,50 @@ export class Homepage implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    // Initialize with all jobs
+    this.filteredJobs = [...this.featuredJobs];
   }
 
   onSearch(): void {
-    if (this.searchQuery.trim()) {
-      console.log('Searching for:', this.searchQuery);
-      alert('Search functionality will be connected to job listings page');
+    const query = this.searchQuery.trim().toLowerCase();
+    
+    if (query) {
+      this.isSearchActive = true;
+      // Filter jobs based on search query
+      this.filteredJobs = this.featuredJobs.filter(job => 
+        job.title.toLowerCase().includes(query) ||
+        job.company.toLowerCase().includes(query) ||
+        job.location.toLowerCase().includes(query) ||
+        job.description.toLowerCase().includes(query) ||
+        job.type.toLowerCase().includes(query)
+      );
+      
+      // Scroll to jobs section
+      this.scrollToSection('jobs');
+    } else {
+      this.clearSearch();
     }
   }
 
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.isSearchActive = false;
+    this.filteredJobs = [...this.featuredJobs];
+  }
+
+  get searchResultsText(): string {
+    if (!this.isSearchActive) return '';
+    const count = this.filteredJobs.length;
+    return count === 0 ? 'No jobs found' : `Found ${count} job${count !== 1 ? 's' : ''}`;
+  }
+
   filterByCompany(companyName: string): void {
-    console.log('Filtering by company:', companyName);
-    alert(`Filtering jobs for ${companyName} - will connect to job listings page`);
+    this.searchQuery = companyName;
+    this.isSearchActive = true;
+    this.filteredJobs = this.featuredJobs.filter(job => 
+      job.company.toLowerCase().includes(companyName.toLowerCase())
+    );
+    this.scrollToSection('jobs');
   }
 
   viewJobDetails(jobId: number): void {
@@ -95,5 +129,12 @@ export class Homepage implements OnInit {
 
   applyNow(jobId: number): void {
     this.router.navigate(['/register'], { queryParams: { jobId: jobId } });
+  }
+
+  scrollToSection(sectionId: string): void {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }

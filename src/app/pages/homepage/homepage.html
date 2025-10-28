@@ -1,33 +1,43 @@
 <!-- Navigation Bar -->
-<nav class="navbar">
-  <div class="nav-container">
+<nav class="bg-primary py-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
     <div class="logo">
-      <h1>TalentLink</h1>
+      <h1 class="text-white text-3xl font-bold m-0">TalentLink</h1>
     </div>
-    <ul class="nav-menu">
-      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a href="#jobs">All Jobs</a></li>
-      <li><a href="#about">About Us</a></li>
-      <li><a href="#login" class="login-btn">Login</a></li>
+    <ul class="flex list-none gap-8 m-0 p-0">
+      <li><a routerLink="/home" routerLinkActive="active" class="text-white no-underline font-medium transition-colors hover:text-secondary">Home</a></li>
+      <li><a (click)="scrollToSection('jobs')" class="text-white no-underline font-medium transition-colors hover:text-secondary cursor-pointer">All Jobs</a></li>
+      <li><a (click)="scrollToSection('about')" class="text-white no-underline font-medium transition-colors hover:text-secondary cursor-pointer">About Us</a></li>
+      <li><a href="#login" class="bg-primary-variant text-white no-underline px-6 py-2 rounded font-medium transition-colors hover:bg-primary">Login</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- Hero Section -->
-<section class="hero-section">
-  <div class="hero-content">
-    <h1 class="hero-title">Find Your Dream Career</h1>
-    <p class="hero-subtitle">Join our companies and grow with industry-leading training programs</p>
+<section class="bg-gradient-to-br from-primary to-primary-variant py-24 px-8 text-center text-white">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-5xl font-bold mb-4 text-white">Find Your Dream Career</h1>
+    <p class="text-xl mb-10 opacity-95 text-secondary">Join our companies and grow with industry-leading training programs</p>
     
     <!-- Main Search Bar -->
-    <div class="search-container">
+    <div class="flex max-w-2xl mx-auto shadow-lg rounded-lg overflow-visible relative bg-white">
       <input 
         type="text" 
-        class="search-input" 
-        placeholder="Search for jobs, skills, or companies..."
+        class="flex-1 px-6 py-4 border-0 text-base outline-none font-nunito bg-white text-gray-900" 
+        placeholder="Search by job title, company, location, job type, or description..."
         [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+        autocomplete="off"
       >
-      <button class="search-btn" (click)="onSearch()">
+      <button 
+        *ngIf="searchQuery" 
+        (click)="clearSearch()" 
+        class="absolute right-32 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 px-2 text-xl cursor-pointer bg-transparent border-0 z-10"
+        title="Clear search"
+        type="button">
+        ✕
+      </button>
+      <button class="bg-primary-variant text-white border-0 px-8 py-4 cursor-pointer text-base font-semibold transition-colors hover:bg-primary font-nunito" (click)="onSearch()" type="button">
         <span>Search</span>
       </button>
     </div>
@@ -35,64 +45,102 @@
 </section>
 
 <!-- Company Filter Links -->
-<section class="companies-section">
-  <div class="container">
-    <h2 class="section-title">Explore Our Companies</h2>
-    <div class="companies-grid">
-      <div class="company-card" *ngFor="let company of companies" (click)="filterByCompany(company.name)">
-        <div class="company-icon">{{ company.icon }}</div>
-        <h3>{{ company.name }}</h3>
-        <p>{{ company.openPositions }} open positions</p>
+<section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-8">
+    <h2 class="text-center text-4xl mb-4 text-primary font-bold">Explore Our Companies</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="bg-white p-8 rounded-xl text-center cursor-pointer transition-all shadow-md border border-secondary hover:-translate-y-2 hover:shadow-xl hover:border-primary-variant" 
+           *ngFor="let company of companies" (click)="filterByCompany(company.name)">
+        <div class="text-5xl mb-4">{{ company.icon }}</div>
+        <h3 class="text-primary mb-2 text-lg font-bold">{{ company.name }}</h3>
+        <p class="text-primary-variant text-sm font-semibold">{{ company.openPositions }} open positions</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Featured Jobs Grid -->
-<section class="featured-jobs-section">
-  <div class="container">
-    <h2 class="section-title">Featured Opportunities</h2>
-    <div class="jobs-grid">
-      <div class="job-card" *ngFor="let job of featuredJobs">
-        <div class="job-header">
-          <h3 class="job-title">{{ job.title }}</h3>
-          <span class="job-type-badge">{{ job.type }}</span>
+<section id="jobs" class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl text-primary font-bold">Featured Opportunities</h2>
+      <div *ngIf="isSearchActive" class="flex items-center gap-4">
+        <span class="text-primary-variant font-semibold">{{ searchResultsText }}</span>
+        <button (click)="clearSearch()" class="text-sm text-primary hover:text-primary-variant underline cursor-pointer bg-transparent border-0 font-nunito">
+          Clear Search
+        </button>
+      </div>
+    </div>
+    
+    <!-- No Results Message -->
+    <div *ngIf="isSearchActive && filteredJobs.length === 0" class="text-center py-16">
+      <div class="text-6xl mb-4">🔍</div>
+      <h3 class="text-2xl font-bold text-primary mb-2">No jobs found</h3>
+      <p class="text-primary-variant mb-6">Try searching for different keywords like "sales", "barista", or "manager"</p>
+      <button (click)="clearSearch()" class="bg-primary text-white px-6 py-3 rounded font-semibold hover:bg-primary-variant transition-colors cursor-pointer border-0 font-nunito">
+        View All Jobs
+      </button>
+    </div>
+    
+    <!-- Jobs Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" *ngIf="filteredJobs.length > 0">
+      <div class="bg-white border border-secondary rounded-xl p-6 transition-all hover:shadow-xl hover:border-primary-variant" *ngFor="let job of filteredJobs">
+        <div class="flex justify-between items-start mb-2">
+          <h3 class="text-primary text-xl m-0 flex-1 font-bold">{{ job.title }}</h3>
+          <span class="bg-secondary text-primary px-3 py-1 rounded-full text-xs font-semibold ml-2">{{ job.type }}</span>
         </div>
-        <p class="job-company">{{ job.company }}</p>
-        <p class="job-location">📍 {{ job.location }}</p>
-        <p class="job-description">{{ job.description }}</p>
-        <div class="job-footer">
-          <button class="btn-view-details" (click)="viewJobDetails(job.id)">View Details</button>
-          <button class="btn-apply" (click)="applyNow(job.id)">Apply Now</button>
+        <p class="text-primary-variant font-semibold my-2">{{ job.company }}</p>
+        <p class="text-primary-variant text-sm my-1">📍 {{ job.location }}</p>
+        <p class="text-gray-600 my-4 leading-relaxed">{{ job.description }}</p>
+        <div class="flex gap-4 mt-6">
+          <button class="flex-1 py-3 border-0 rounded cursor-pointer font-semibold transition-all bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white font-nunito" 
+                  (click)="viewJobDetails(job.id)">View Details</button>
+          <button class="flex-1 py-3 border-0 rounded cursor-pointer font-semibold transition-all bg-primary text-white hover:bg-primary-variant font-nunito" 
+                  (click)="applyNow(job.id)">Apply Now</button>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- About Section -->
+<section id="about" class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-8">
+    <h2 class="text-center text-4xl mb-4 text-primary font-bold">About TalentLink</h2>
+    <div class="max-w-4xl mx-auto text-center text-primary-variant leading-relaxed text-lg">
+      <p class="mb-4">TalentLink is part of the Chandrasiri Group of Companies, a trusted name in Sri Lanka's pharmaceutical distribution, 
+      food & beverage, and hospitality sectors. We believe in growing talent from within through comprehensive training programs.</p>
+      <p class="mb-4">Join our family of companies and embark on a career path that combines hands-on experience with structured learning. 
+      Whether you're interested in pharmaceutical sales, logistics, or hospitality, we provide the training and support you need to succeed.</p>
+      <p class="mb-4">Our companies include Chandrasiri Distributors (pharmaceutical distribution), Chandrasiri Pharmaceutical (hospital supply), 
+      Chandrasiri Agencies (Prima flour distribution), and Lounge 171 (restaurant & coffee shop).</p>
+    </div>
+  </div>
+</section>
+
 <!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>TalentLink</h3>
-        <p>Connecting talent with opportunity through innovative learning</p>
+<footer class="bg-primary text-white pt-12 pb-4 mt-16">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div>
+        <h3 class="text-white mb-4 font-bold text-xl">TalentLink</h3>
+        <p class="text-white opacity-90">Connecting talent with opportunity through innovative learning</p>
       </div>
-      <div class="footer-section">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#jobs">Browse Jobs</a></li>
-          <li><a routerLink="/register">Register</a></li>
+      <div>
+        <h4 class="text-secondary mb-4 font-bold">Quick Links</h4>
+        <ul class="list-none p-0">
+          <li class="mb-2"><a (click)="scrollToSection('about')" class="text-white no-underline transition-colors hover:text-secondary cursor-pointer">About Us</a></li>
+          <li class="mb-2"><a (click)="scrollToSection('jobs')" class="text-white no-underline transition-colors hover:text-secondary cursor-pointer">Browse Jobs</a></li>
+          <li class="mb-2"><a routerLink="/register" class="text-white no-underline transition-colors hover:text-secondary">Register</a></li>
         </ul>
       </div>
-      <div class="footer-section">
-        <h4>Contact</h4>
-        <p>Email: careers@talentlink.com</p>
-        <p>Phone: (555) 123-4567</p>
+      <div>
+        <h4 class="text-secondary mb-4 font-bold">Contact</h4>
+        <p class="text-white opacity-90 mb-2">Email: careers@talentlink.com</p>
+        <p class="text-white opacity-90">Phone: (555) 123-4567</p>
       </div>
     </div>
-    <div class="footer-bottom">
+    <div class="text-center pt-8 border-t border-primary-variant text-secondary">
       <p>&copy; 2025 TalentLink. All rights reserved.</p>
     </div>
   </div>
