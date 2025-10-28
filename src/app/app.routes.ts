@@ -1,12 +1,16 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
+import { Homepage } from './pages/homepage/homepage';
+import { ApplicantRegistration } from './pages/applicant-registration/applicant-registration';
 
 export const routes: Routes = [
-  // Root should load the common login page (no /admin prefix)
-  { path: '', component: AdminLoginComponent },
-  // Optional alias for direct /login
+  // Base URL shows homepage
+  { path: '', component: Homepage },
+  { path: 'home', component: Homepage },
+  // Login and Register
   { path: 'login', component: AdminLoginComponent },
+  { path: 'register', component: ApplicantRegistration },
   {
     // APPLICANT PORTAL
     path: 'applicant',

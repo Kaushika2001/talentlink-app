@@ -5,13 +5,13 @@ import { ModulePageComponent } from './components/module-page/module-page.compon
 import { QuizPageComponent } from './components/quiz-page/quiz-page.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: ApplicantLayoutComponent,
-    children: [
-      { path: '', redirectTo: 'modules', pathMatch: 'full' },
-      { path: 'modules', component: ModulePageComponent },
-      { path: 'quiz', component: QuizPageComponent },
-    ],
-  },
+	{
+		path: '',
+		component: ApplicantLayoutComponent,
+		children: [
+			{ path: '', redirectTo: 'modules', pathMatch: 'full' },
+			{ path: 'modules', component: ModulePageComponent },
+			{ path: 'quiz', component: QuizPageComponent },
+		],
+	},
 ];

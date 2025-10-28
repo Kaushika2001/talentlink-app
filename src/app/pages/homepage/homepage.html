@@ -5,10 +5,10 @@
       <h1 class="text-white text-3xl font-bold m-0">TalentLink</h1>
     </div>
     <ul class="flex list-none gap-8 m-0 p-0">
-      <li><a routerLink="/home" routerLinkActive="active" class="text-white no-underline font-medium transition-colors hover:text-secondary">Home</a></li>
+  <li><a routerLink="/home" routerLinkActive="active" class="text-white no-underline font-medium transition-colors hover:text-secondary">Home</a></li>
       <li><a (click)="scrollToSection('jobs')" class="text-white no-underline font-medium transition-colors hover:text-secondary cursor-pointer">All Jobs</a></li>
       <li><a (click)="scrollToSection('about')" class="text-white no-underline font-medium transition-colors hover:text-secondary cursor-pointer">About Us</a></li>
-      <li><a href="#login" class="bg-primary-variant text-white no-underline px-6 py-2 rounded font-medium transition-colors hover:bg-primary">Login</a></li>
+  <li><a routerLink="/login" class="bg-primary-variant text-white no-underline px-6 py-2 rounded font-medium transition-colors hover:bg-primary">Login</a></li>
     </ul>
   </div>
 </nav>
@@ -40,6 +40,16 @@
       <button class="bg-primary-variant text-white border-0 px-8 py-4 cursor-pointer text-base font-semibold transition-colors hover:bg-primary font-nunito" (click)="onSearch()" type="button">
         <span>Search</span>
       </button>
+    </div>
+
+    <!-- Hero CTA: Sign up -->
+    <div class="mt-6 flex justify-center">
+      <a
+        routerLink="/register"
+        class="inline-block bg-white text-primary border-0 px-8 py-3 cursor-pointer text-base font-semibold rounded-lg shadow hover:shadow-md transition-colors hover:bg-gray-100"
+      >
+        Sign up
+      </a>
     </div>
   </div>
 </section>
