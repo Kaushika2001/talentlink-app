@@ -104,7 +104,7 @@ export class AdminService {
         localStorage.removeItem('adminUser');
         this.currentUser.set(null);
         this.isAuthenticated.set(false);
-        this.router.navigate(['/admin/login']);
+    this.router.navigate(['/login']);
     }
 
     /**

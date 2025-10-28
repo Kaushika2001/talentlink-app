@@ -13,8 +13,8 @@ export const adminAuthGuard: CanActivateFn = (route, state) => {
         return true;
     }
 
-    // Redirect to login page
-    return router.createUrlTree(['/admin/login'], {
+    // Redirect to common login page at root
+    return router.createUrlTree(['/login'], {
         queryParams: { returnUrl: state.url }
     });
 };

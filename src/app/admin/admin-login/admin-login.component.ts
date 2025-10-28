@@ -24,8 +24,8 @@ export class AdminLoginComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        // Get return URL from route parameters or default to dashboard
-        this.returnUrl.set(this.route.snapshot.queryParams['returnUrl'] || '/admin/dashboard');
+          // Get return URL from route parameters or default to dashboard
+          this.returnUrl.set(this.route.snapshot.queryParams['returnUrl'] || '/admin/dashboard');
     }
 
     onLogin() {

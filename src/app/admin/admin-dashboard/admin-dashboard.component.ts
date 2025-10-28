@@ -2,7 +2,6 @@ import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AdminService } from '../services/admin.service';
-import { AdminNavComponent } from '../components/admin-nav/admin-nav.component';
 
 interface KPI {
     title: string;
@@ -29,7 +28,7 @@ interface FunnelStage {
 @Component({
     selector: 'app-admin-dashboard',
     standalone: true,
-    imports: [CommonModule, AdminNavComponent],
+    imports: [CommonModule],
     templateUrl: './admin-dashboard.component.html'
 })
 export class AdminDashboardComponent implements OnInit {
@@ -45,9 +44,9 @@ export class AdminDashboardComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        // Check if admin is logged in
+        // Optional: route-level guard already protects this, but keep a safety check
         if (!this.adminService.getAuthStatus()()) {
-            this.router.navigate(['/admin/login']);
+            this.router.navigate(['/login']);
             return;
         }
 

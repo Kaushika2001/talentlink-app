@@ -1,9 +1,13 @@
 // src/app/admin.routes.ts
 
 import { Routes } from '@angular/router';
+import { adminAuthGuard } from './admin/guards/admin-auth.guard';
 
 // Layout
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+
+// Member 1's Pages (Dashboard)
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 
 // Member 2's Pages (Job Management)
 import { JobManagementComponent } from './pages/job-management/job-management.component';
@@ -20,10 +24,14 @@ export const routes: Routes = [
     // This is the main layout for the entire Admin Portal
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [adminAuthGuard],
     children: [
       // Default route for the admin section
-      // You might want to change this to 'dashboard' (from Member 1) later
-      { path: '', redirectTo: 'jobs', pathMatch: 'full' }, 
+      // Redirect to dashboard by default
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
+
+  // --- Member 1's Routes ---
+  { path: 'dashboard', component: AdminDashboardComponent },
       
       // --- Member 2's Routes ---
       { path: 'jobs', component: JobManagementComponent },

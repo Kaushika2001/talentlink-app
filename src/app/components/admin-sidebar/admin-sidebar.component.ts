@@ -17,10 +17,16 @@ export class AdminSidebarComponent {
 
   menuItems = [
     {
+      icon: 'dashboard',
+      label: 'Dashboard',
+      route: '/admin/dashboard',
+      active: true,
+    },
+    {
       icon: 'briefcase',
       label: 'Job Management',
       route: '/admin/jobs',
-      active: true,
+      active: false,
     },
     {
       icon: 'users',
@@ -62,6 +68,8 @@ export class AdminSidebarComponent {
 
   getIconPath(icon: string): string {
     const icons: { [key: string]: string } = {
+      dashboard:
+        'M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z',
       briefcase:
         'M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z',
       users:
