@@ -37,24 +37,40 @@ export class AdminLoginComponent implements OnInit {
         }
 
         this.isLoading.set(true);
+        // Support applicant credentials as well
+        const email = this.email().trim().toLowerCase();
+        const password = this.password();
 
-        this.adminService.login({
-            email: this.email(),
-            password: this.password()
-        }).subscribe({
-            next: (response) => {
-                if (response.success) {
-                    this.router.navigate([this.returnUrl()]);
-                } else {
-                    this.errorMessage.set(response.message || 'Login failed');
+        if (email === 'applicant@talentlink.com' && password === 'applicant123') {
+            // Mock applicant session
+            const token = btoa('applicant-mock-token');
+            const user = { id: 'a1', email, name: 'Applicant User', role: 'applicant' } as any;
+            localStorage.setItem('applicantToken', token);
+            localStorage.setItem('applicantUser', JSON.stringify(user));
+            this.isLoading.set(false);
+            this.router.navigate(['/applicant/modules']);
+            return;
+        }
+
+        this.adminService
+            .login({
+                email: this.email(),
+                password: this.password()
+            })
+            .subscribe({
+                next: (response) => {
+                    if (response.success) {
+                        this.router.navigate([this.returnUrl()]);
+                    } else {
+                        this.errorMessage.set(response.message || 'Login failed');
+                    }
+                    this.isLoading.set(false);
+                },
+                error: (error) => {
+                    this.errorMessage.set(error.message || 'Invalid email or password');
+                    this.isLoading.set(false);
                 }
-                this.isLoading.set(false);
-            },
-            error: (error) => {
-                this.errorMessage.set(error.message || 'Invalid email or password');
-                this.isLoading.set(false);
-            }
-        });
+            });
     }
 
     onEmailChange(value: string) {

@@ -1,0 +1,121 @@
+<!-- src/app/components/applicant-sidebar/applicant-sidebar.component.html -->
+
+<div
+  [class]="
+    isSidebarCollapsed ? 'w-20 transition-all duration-300' : 'w-64 transition-all duration-300'
+  "
+  class="h-screen text-white flex flex-col fixed left-0 top-0 shadow-xl z-50"
+  [style.background-color]="'var(--color-primary)'"
+>
+  <!-- Logo & Toggle -->
+  <div
+    class="p-4 flex items-center justify-between border-b"
+    [style.border-color]="'var(--color-primary-variant)'"
+  >
+    <div *ngIf="!isSidebarCollapsed" class="flex items-center gap-2">
+      <div
+        class="w-10 h-10 rounded-lg flex items-center justify-center"
+        [style.background-color]="'var(--color-secondary)'"
+      >
+        <span class="font-bold text-xl" [style.color]="'var(--color-primary)'">TL</span>
+      </div>
+      <span class="font-bold text-xl">TalentLink</span>
+    </div>
+    <button
+      (click)="toggleSidebar()"
+      class="p-2 rounded-lg transition-colors duration-200 hover:bg-opacity-80"
+      [style.background-color]="'transparent'"
+      [style.--hover-bg]="'var(--color-primary-variant)'"
+      style="background-color: transparent"
+      onmouseover="this.style.backgroundColor='var(--color-primary-variant)'"
+      onmouseout="this.style.backgroundColor='transparent'"
+      [class.mx-auto]="isSidebarCollapsed"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        [class.rotate-180]="isSidebarCollapsed"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="flex-1 py-6 overflow-y-auto">
+    <ul class="space-y-2 px-3">
+      <li *ngFor="let item of menuItems" class="space-y-1">
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer group"
+        >
+          <svg
+            class="w-6 h-6 shrink-0 menu-item-icon"
+            [class.active]="item.active"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path [attr.d]="getIconPath(item.icon)" />
+          </svg>
+          <span
+            *ngIf="!isSidebarCollapsed"
+            class="font-medium menu-item-text"
+            [class.active]="item.active"
+          >
+            {{ item.label }}
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- User Profile Section -->
+  <div class="p-4 border-t" [style.border-color]="'var(--color-primary-variant)'">
+    <div class="flex items-center gap-3" [class.justify-center]="isSidebarCollapsed">
+      <div
+        class="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+        [style.background-color]="'var(--color-secondary)'"
+      >
+        <svg
+          class="w-6 h-6"
+          [style.color]="'var(--color-primary)'"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+          />
+        </svg>
+      </div>
+      <div *ngIf="!isSidebarCollapsed" class="flex-1">
+        <p class="text-sm font-semibold">Applicant User</p>
+      </div>
+      <button
+        *ngIf="!isSidebarCollapsed"
+        class="p-2 rounded-lg transition-colors duration-200"
+        onmouseover="this.style.backgroundColor='var(--color-primary-variant)'"
+        onmouseout="this.style.backgroundColor='transparent'"
+        (click)="onLogout()"
+        title="Logout"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

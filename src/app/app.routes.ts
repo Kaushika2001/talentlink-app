@@ -8,6 +8,11 @@ export const routes: Routes = [
   // Optional alias for direct /login
   { path: 'login', component: AdminLoginComponent },
   {
+    // APPLICANT PORTAL
+    path: 'applicant',
+    loadChildren: () => import('./applicant.routes').then(m => m.routes)
+  },
+  {
     // ADMIN PORTAL (Members 1-4)
     path: 'admin',
     loadChildren: () => import('./admin.routes').then(m => m.routes)

@@ -102,6 +102,9 @@ export class AdminService {
     logout(): void {
         localStorage.removeItem('adminToken');
         localStorage.removeItem('adminUser');
+        // Also clear applicant session if present
+        localStorage.removeItem('applicantToken');
+        localStorage.removeItem('applicantUser');
         this.currentUser.set(null);
         this.isAuthenticated.set(false);
     this.router.navigate(['/login']);
