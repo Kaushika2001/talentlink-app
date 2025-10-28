@@ -1,0 +1,263 @@
+<div class="flex min-h-screen bg-background">
+    <!-- Vertical Navigation -->
+    <app-admin-nav></app-admin-nav>
+
+    <!-- Main Content Area with left margin to account for fixed sidebar -->
+    <main class="ml-64 flex-1 p-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-primary">Admin Dashboard</h1>
+            <p class="mt-2 text-sm text-primary/70">{{ currentDate() }}</p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+            @for (kpi of kpis(); track kpi.title) {
+            <div
+                class="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-md transition-shadow duration-200 border border-secondary/20">
+                <div class="p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div
+                                [class]="'w-12 h-12 rounded-lg flex items-center justify-center ' + getKpiColorClass(kpi.color)">
+                                @if (kpi.icon === 'users') {
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                                    </path>
+                                </svg>
+                                }
+                                @if (kpi.icon === 'briefcase') {
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                }
+                                @if (kpi.icon === 'book') {
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                    </path>
+                                </svg>
+                                }
+                                @if (kpi.icon === 'check-circle') {
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                }
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-primary/70 truncate">{{ kpi.title }}</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-primary">{{ kpi.value }}</div>
+                                    <div
+                                        [class]="'ml-2 flex items-baseline text-sm font-semibold ' + (kpi.change > 0 ? 'text-green-600' : 'text-error')">
+                                        @if (kpi.change > 0) {
+                                        <svg class="self-center flex-shrink-0 h-5 w-5 text-green-500"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        }
+                                        <span class="ml-1">{{ kpi.change }}%</span>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Applicant Funnel Chart -->
+            <div class="lg:col-span-2 bg-white shadow-sm rounded-lg p-6 border border-secondary/20">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-primary">Applicant Funnel</h2>
+                    <select
+                        class="text-sm border-secondary/50 rounded-lg focus:ring-primary focus:border-primary text-primary">
+                        <option>Last 30 days</option>
+                        <option>Last 90 days</option>
+                        <option>Last year</option>
+                    </select>
+                </div>
+
+                <div class="space-y-4">
+                    @for (stage of funnelData(); track stage.stage; let i = $index) {
+                    <div class="relative">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span
+                                    class="flex items-center justify-center w-6 h-6 rounded-full bg-secondary text-primary text-xs font-semibold">
+                                    {{ i + 1 }}
+                                </span>
+                                <span class="text-sm font-medium text-primary">{{ stage.stage }}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-sm font-semibold text-primary">{{ stage.count }}</span>
+                                <span class="text-xs text-primary/50 ml-2">({{ stage.percentage }}%)</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-secondary/30 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-primary to-primary-variant h-3 rounded-full transition-all duration-500"
+                                [style.width.%]="stage.percentage"></div>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-secondary/20">
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-primary/70">Conversion Rate (Viewed to Hired)</span>
+                        <span class="font-semibold text-green-600">5%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Needs Action List -->
+            <div class="bg-white shadow-sm rounded-lg p-6 border border-secondary/20">
+                <h2 class="text-xl font-semibold text-primary mb-6">Needs Action</h2>
+
+                <div class="space-y-4">
+                    @for (item of actionItems(); track item.id) {
+                    <div
+                        class="border border-secondary/30 rounded-lg p-4 hover:border-primary hover:shadow-sm transition-all duration-200 cursor-pointer">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    @if (item.priority === 'high') {
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-error/10 text-error">
+                                        High Priority
+                                    </span>
+                                    }
+                                    @if (item.priority === 'medium') {
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        Medium
+                                    </span>
+                                    }
+                                    @if (item.priority === 'low') {
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                        Low Priority
+                                    </span>
+                                    }
+                                </div>
+                                <h3 class="text-sm font-medium text-primary mb-1">{{ item.title }}</h3>
+                                <p class="text-2xl font-bold text-primary">{{ item.count }}</p>
+                            </div>
+                            <svg class="h-5 w-5 text-primary/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <div class="mt-6">
+                    <button
+                        class="w-full inline-flex justify-center items-center px-4 py-2 border border-secondary/50 shadow-sm text-sm font-medium rounded-lg text-primary bg-white hover:bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        View All Tasks
+                        <svg class="ml-2 -mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats Row -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white shadow-sm rounded-lg p-6 border border-secondary/20">
+                <h3 class="text-lg font-medium text-primary mb-4">Recent Activity</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-primary">New applicant completed training</p>
+                            <p class="text-xs text-primary/50">2 minutes ago</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-primary">New job posted: Sales Manager</p>
+                            <p class="text-xs text-primary/50">1 hour ago</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-primary">Course updated: Pharma Basics</p>
+                            <p class="text-xs text-primary/50">3 hours ago</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-sm rounded-lg p-6 border border-secondary/20">
+                <h3 class="text-lg font-medium text-primary mb-4">Top Performing Courses</h3>
+                <ul class="space-y-3">
+                    <li class="flex justify-between items-center">
+                        <span class="text-sm text-primary/70">Pharmaceutical Storage</span>
+                        <span class="text-sm font-semibold text-primary">92%</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <span class="text-sm text-primary/70">Customer Service Excellence</span>
+                        <span class="text-sm font-semibold text-primary">88%</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <span class="text-sm text-primary/70">Safety Training</span>
+                        <span class="text-sm font-semibold text-primary">85%</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-sm rounded-lg p-6 border border-secondary/20">
+                <h3 class="text-lg font-medium text-primary mb-4">Quick Actions</h3>
+                <div class="space-y-2">
+                    <button
+                        class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary-variant transition-colors duration-200">
+                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
+                            </path>
+                        </svg>
+                        Create New Job
+                    </button>
+                    <button
+                        class="w-full inline-flex items-center justify-center px-4 py-2 border border-secondary/50 text-sm font-medium rounded-lg text-primary bg-white hover:bg-secondary/10 transition-colors duration-200">
+                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
+                            </path>
+                        </svg>
+                        Add New Course
+                    </button>
+                    <button
+                        class="w-full inline-flex items-center justify-center px-4 py-2 border border-secondary/50 text-sm font-medium rounded-lg text-primary bg-white hover:bg-secondary/10 transition-colors duration-200">
+                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                        Generate Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
