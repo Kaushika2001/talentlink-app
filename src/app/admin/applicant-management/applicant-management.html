@@ -1,0 +1,65 @@
+<h1 class="text-h2 font-bold text-primary mb-6">Applicant Management</h1>
+
+<div class="mb-6 p-4 bg-white rounded-lg shadow-md flex flex-col md:flex-row gap-4">
+  <div class="flex-1">
+    <label for="search" class="block text-sm font-semibold text-gray-700 mb-1">Search Applicants</label>
+    <input 
+      type="text" 
+      id="search"
+      [(ngModel)]="searchTerm"
+      (input)="filterApplicants()"
+      placeholder="Search by name or job..."
+      class="mt-1 block w-full px-3 py-2 text-body border border-gray-300 rounded-md shadow-sm 
+             focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm"
+    />
+  </div>
+
+  <div class="flex-1 md:max-w-xs"> <label for="status" class="block text-sm font-semibold text-gray-700 mb-1">Filter by Status</label>
+    <select 
+      id="status"
+      [(ngModel)]="statusFilter"
+      (change)="filterApplicants()"
+      class="mt-1 block w-full px-3 py-2 text-body border border-gray-300 bg-white rounded-md shadow-sm
+             focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm"
+    >
+      <option value="">All Statuses</option>
+      <option value="In Training">In Training</option>
+      <option value="Passed Quiz">Passed Quiz</option>
+      <option value="Pending Review">Pending Review</option>
+      <option value="Failed">Failed</option>
+    </select>
+  </div>
+</div>
+
+<div class="bg-white shadow-md rounded-lg overflow-x-auto"> <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-primary text-white"> <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Name</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Applied For</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Status</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Quiz Score</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200 text-body"> <tr *ngFor="let applicant of filteredApplicants" class="hover:bg-gray-50 transition-colors duration-150">
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ applicant.name }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ applicant.appliedFor }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm">
+          <span 
+            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full"
+            [ngClass]="getStatusClass(applicant.status)">
+            {{ applicant.status }}
+          </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+          {{ applicant.quizScore !== null ? applicant.quizScore + '%' : 'N/A' }}
+        </td>
+      </tr>
+
+      <tr *ngIf="filteredApplicants.length === 0">
+        <td colspan="4" class="px-6 py-12 text-center text-sm text-gray-500">
+          No applicants found matching your criteria.
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
