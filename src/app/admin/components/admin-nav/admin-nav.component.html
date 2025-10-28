@@ -1,0 +1,38 @@
+<nav class="h-screen w-64 bg-primary flex flex-col fixed left-0 top-0">
+    <!-- Logo Section -->
+    <div class="p-6 border-b border-primary-variant">
+        <h1 class="text-2xl font-bold text-secondary">TalentLink</h1>
+        <p class="text-xs text-secondary/70 mt-1">Admin Portal</p>
+    </div>
+
+    <!-- Navigation Items -->
+    <div class="flex-1 py-4">
+        @for (item of navItems; track item.route) {
+        <a [routerLink]="item.route" routerLinkActive="bg-primary-variant border-l-4 border-secondary"
+            class="flex items-center px-6 py-3 text-white hover:bg-primary-variant transition-colors duration-200 cursor-pointer">
+            <span class="text-xl mr-3">{{ item.icon }}</span>
+            <span class="font-medium">{{ item.label }}</span>
+        </a>
+        }
+    </div>
+
+    <!-- User Section -->
+    <div class="border-t border-primary-variant p-4">
+        @if (currentUser(); as user) {
+        <div class="flex items-center mb-3">
+            <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-primary font-bold">
+                {{ user.email.charAt(0).toUpperCase() }}
+            </div>
+            <div class="ml-3 flex-1">
+                <p class="text-sm font-medium text-white">{{ user.name }}</p>
+                <p class="text-xs text-secondary/70">{{ user.email }}</p>
+            </div>
+        </div>
+        }
+        <button (click)="onLogout()"
+            class="w-full bg-error hover:bg-error/80 text-white py-2 px-4 rounded transition-colors duration-200 flex items-center justify-center">
+            <span class="mr-2">🚪</span>
+            Logout
+        </button>
+    </div>
+</nav>

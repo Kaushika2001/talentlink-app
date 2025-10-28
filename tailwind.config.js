@@ -17,7 +17,7 @@ module.exports = {
       },
       // Add your custom font
       fontFamily: {
-        nunito: ['Nunito', 'sans-serif'],
+        'sans': ['Nunito', 'sans-serif'],
       },
       // Add your custom font sizes from the image
       fontSize: {
