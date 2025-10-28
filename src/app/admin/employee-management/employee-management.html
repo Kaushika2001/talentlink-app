@@ -47,8 +47,8 @@
       <tr *ngFor="let emp of filteredEmployees" class="hover:bg-gray-50 transition-colors duration-150">
         <td class="px-4 py-3 font-medium text-gray-900 break-words whitespace-normal">{{ emp.name }}</td>
         <td class="px-4 py-3 text-gray-600 break-words whitespace-normal hidden md:table-cell">{{ emp.email }}</td>
-        <td class="px-4 py-3 text-gray-600">
-          <div>{{ emp.title }}</div>
+        <td class="px-3 py-3 text-gray-600">
+          <div class="text-sms">{{ emp.title }}</div>
           <div class="text-xs text-gray-500">{{ emp.department }}</div>
         </td>
         <td class="px-4 py-3 text-gray-600">
@@ -59,8 +59,8 @@
             <span>{{ emp.coursesCompleted }}/{{ emp.coursesTotal }}</span>
           </div>
         </td>
-        <td class="px-4 py-3 text-sm">
-          <span class="px-2.5 py-1 rounded-full text-xs font-semibold" [ngClass]="emp.overdueCount>0 ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'">
+        <td class="px-4 py-3  text-sm ">
+          <span class="px-2.5 py-1 rounded-full text-s font-semibold" [ngClass]="emp.overdueCount>0 ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'">
             {{ emp.overdueCount>0 ? emp.overdueCount + ' Due' : 'On Track' }}
           </span>
         </td>
