@@ -1,0 +1,89 @@
+<section class="dashboard font-nunito bg-gray-50 min-h-screen p-6">
+
+  <!-- Header -->
+  <header class="flex flex-col sm:flex-row justify-between items-center bg-white rounded-2xl shadow-md p-6 mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800">Welcome back, {{ employeeName }} 👋</h1>
+      <p class="text-gray-500 mt-1">{{ today | date:'fullDate' }}</p>
+    </div>
+    <div class="mt-4 sm:mt-0 text-center sm:text-right">
+      <p class="text-sm text-gray-600 font-medium">Overall Learning Progress</p>
+      <div class="w-56 bg-gray-200 rounded-full h-3 my-2 overflow-hidden">
+        <div class="bg-blue-500 h-3 rounded-full transition-all duration-500" [style.width.%]="overallProgress"></div>
+      </div>
+      <span class="font-semibold text-blue-600 text-sm">{{ overallProgress }}%</span>
+    </div>
+  </header>
+
+  <!-- Announcements -->
+  <div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">📢 Announcements</h2>
+    <ul class="space-y-3">
+      <li *ngFor="let a of announcements" 
+          class="p-3 rounded-xl text-sm flex items-start gap-2"
+          [ngClass]="{
+            'bg-blue-50 text-blue-800 border-l-4 border-blue-500': a.type === 'info',
+            'bg-green-50 text-green-800 border-l-4 border-green-500': a.type === 'success',
+            'bg-yellow-50 text-yellow-800 border-l-4 border-yellow-400': a.type === 'warning',
+            'bg-red-50 text-red-800 border-l-4 border-red-500': a.type === 'alert'
+          }">
+        <span class="font-semibold capitalize">{{ a.type }}:</span>
+        <span>{{ a.message }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Widgets Section -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Widget 1: Mandatory Courses -->
+    <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">📘 My Mandatory Courses</h3>
+      <div *ngFor="let course of mandatoryCourses" class="mb-4 border-b border-gray-100 pb-4 last:border-0">
+        <div class="flex justify-between items-center mb-2">
+          <div>
+            <h4 class="font-semibold text-gray-700">{{ course.title }}</h4>
+            <p class="text-sm text-gray-500">Due: {{ course.dueDate | date:'mediumDate' }}</p>
+          </div>
+          <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-md font-medium">
+            {{ course.progress }}%
+          </span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2">
+          <div class="bg-blue-500 h-2 rounded-full transition-all duration-500" [style.width.%]="course.progress"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Widget 2: Career Path -->
+    <div class="bg-white rounded-2xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">🚀 My Career Path</h3>
+      <div class="flex flex-col gap-4">
+        <div *ngFor="let stage of careerPath" 
+             class="flex items-center gap-3 p-3 rounded-lg border transition"
+             [ngClass]="{
+               'border-blue-500 bg-blue-50 text-blue-700': stage.completed,
+               'border-gray-200 text-gray-700 bg-gray-50': !stage.completed
+             }">
+          <div class="w-6 h-6 flex items-center justify-center rounded-full border-2"
+               [ngClass]="stage.completed ? 'bg-blue-500 text-white border-blue-500' : 'border-gray-300 text-gray-400'">
+            {{ stage.completed ? '✓' : '•' }}
+          </div>
+          <p class="font-medium">{{ stage.title }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Widget 3: Learning Resources -->
+    <div class="bg-white rounded-2xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">📚 Learning Resources</h3>
+      <div class="flex flex-col gap-3">
+        <a href="https://uom.lk" target="_blank" 
+           class="text-blue-600 font-medium hover:underline flex items-center gap-2">
+          🎓 University of Moratuwa
+        </a>
+      </div>
+    </div>
+  </div>
+
+</section>

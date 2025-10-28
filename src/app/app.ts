@@ -8,6 +8,7 @@ import { RouterOutlet, RouterModule } from '@angular/router';
   imports: [CommonModule, RouterOutlet, RouterModule], // Make sure RouterOutlet is here
   templateUrl: './app.html',
   styleUrls: ['./app.css']
+  styleUrls: ['./app.css']
 })
 export class App {
   title = 'talentlink-app';
