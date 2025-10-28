@@ -22,6 +22,11 @@ export const routes: Routes = [
     loadChildren: () => import('./admin.routes').then(m => m.routes)
   },
   {
+    // EMPLOYEE PORTAL
+    path: 'employee',
+    loadChildren: () => import('./employee.routes').then(m => m.routes)
+  },
+  {
     path: '**',
     redirectTo: 'admin/dashboard'
   }

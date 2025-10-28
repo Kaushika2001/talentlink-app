@@ -105,6 +105,9 @@ export class AdminService {
         // Also clear applicant session if present
         localStorage.removeItem('applicantToken');
         localStorage.removeItem('applicantUser');
+        // Also clear employee session if present
+        localStorage.removeItem('employeeToken');
+        localStorage.removeItem('employeeUser');
         this.currentUser.set(null);
         this.isAuthenticated.set(false);
     this.router.navigate(['/login']);

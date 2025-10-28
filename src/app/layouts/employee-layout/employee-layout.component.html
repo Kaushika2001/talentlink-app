@@ -1,0 +1,6 @@
+<div class="min-h-screen bg-white">
+  <app-employee-sidebar (sidebarToggled)="onSidebarToggle($event)"></app-employee-sidebar>
+  <main [class]="isCollapsed ? 'ml-20' : 'ml-64'" class="transition-all duration-300 p-6">
+    <router-outlet></router-outlet>
+  </main>
+</div>

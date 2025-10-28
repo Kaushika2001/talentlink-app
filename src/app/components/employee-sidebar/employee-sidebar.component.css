@@ -1,0 +1,30 @@
+/* Employee Sidebar styles aligned with Admin Sidebar */
+
+.menu-item {
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: var(--color-primary-variant);
+}
+
+.menu-item.active {
+  background-color: var(--color-primary-variant);
+}
+
+.menu-item-icon {
+  color: #d1d5db;
+}
+
+.menu-item.active .menu-item-icon {
+  color: var(--color-secondary);
+}
+
+.menu-item-text {
+  color: #d1d5db;
+}
+
+.menu-item.active .menu-item-text {
+  color: white;
+}

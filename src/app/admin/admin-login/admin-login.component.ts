@@ -37,7 +37,7 @@ export class AdminLoginComponent implements OnInit {
         }
 
         this.isLoading.set(true);
-        // Support applicant credentials as well
+        // Support applicant and employee credentials as well
         const email = this.email().trim().toLowerCase();
         const password = this.password();
 
@@ -49,6 +49,17 @@ export class AdminLoginComponent implements OnInit {
             localStorage.setItem('applicantUser', JSON.stringify(user));
             this.isLoading.set(false);
             this.router.navigate(['/applicant/modules']);
+            return;
+        }
+
+        if (email === 'employee@talentlink.com' && password === 'employee123') {
+            // Mock employee session
+            const token = btoa('employee-mock-token');
+            const user = { id: 'e1', email, name: 'Employee User', role: 'employee' } as any;
+            localStorage.setItem('employeeToken', token);
+            localStorage.setItem('employeeUser', JSON.stringify(user));
+            this.isLoading.set(false);
+            this.router.navigate(['/employee/dashboard']);
             return;
         }
 
