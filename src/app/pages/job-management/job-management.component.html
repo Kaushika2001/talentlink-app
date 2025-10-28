@@ -1,0 +1,124 @@
+<div class="min-h-screen p-8" [style.background-color]="'#f9fafb'">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold mb-1" [style.color]="'var(--color-primary)'">
+            Job Postings
+          </h1>
+          <p class="text-gray-500 text-sm">Manage all job openings</p>
+        </div>
+        <button
+          (click)="createNewJob()"
+          class="text-white font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 flex items-center gap-2 shadow-sm hover:shadow-md"
+          [style.background-color]="'var(--color-primary)'"
+          onmouseover="this.style.backgroundColor='var(--color-primary-variant)'"
+          onmouseout="this.style.backgroundColor='var(--color-primary)'"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          New Job
+        </button>
+      </div>
+    </div>
+
+    <!-- Jobs Grid -->
+    <div class="grid gap-4">
+      <div
+        *ngFor="let job of jobs"
+        class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold mb-1" [style.color]="'var(--color-primary)'">
+              {{ job.title }}
+            </h3>
+            <p class="text-gray-600 text-sm">{{ job.company }}</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <!-- Status Badge -->
+            <span
+              class="px-3 py-1 rounded-full text-xs font-semibold"
+              [ngClass]="{
+                'bg-green-50 text-green-700 border border-green-200': job.status === 'Open',
+                'bg-gray-50 text-gray-600 border border-gray-200': job.status === 'Closed'
+              }"
+            >
+              {{ job.status }}
+            </span>
+
+            <!-- Actions -->
+            <div class="flex gap-2">
+              <button
+                (click)="editJob(job.id)"
+                class="p-2 rounded-lg transition-colors duration-150 hover:bg-gray-100"
+                title="Edit"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+              </button>
+              <button
+                (click)="toggleJobStatus(job)"
+                class="px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150 w-20 text-center"
+                [style.background-color]="job.status === 'Open' ? '#FEE2E2' : '#dcfce7'"
+                [style.color]="job.status === 'Open' ? '#B00020' : '#166534'"
+                onmouseover="this.style.opacity='0.8'"
+                onmouseout="this.style.opacity='1'"
+              >
+                {{ job.status === 'Open' ? 'Close' : 'Reopen' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="jobs.length === 0" class="text-center py-16">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+        <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      </div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">No jobs posted</h3>
+      <p class="text-gray-500 mb-6">Get started by creating your first job posting.</p>
+      <button
+        (click)="createNewJob()"
+        class="text-white font-semibold px-5 py-2.5 rounded-lg transition-colors duration-200"
+        [style.background-color]="'var(--color-primary)'"
+        onmouseover="this.style.backgroundColor='var(--color-primary-variant)'"
+        onmouseout="this.style.backgroundColor='var(--color-primary)'"
+      >
+        Create New Job
+      </button>
+    </div>
+  </div>
+</div>

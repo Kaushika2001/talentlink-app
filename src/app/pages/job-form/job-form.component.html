@@ -1,0 +1,310 @@
+<div class="min-h-screen bg-background p-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <!-- Back Button -->
+      <button
+        type="button"
+        (click)="goBack()"
+        class="flex items-center gap-2 mb-4 transition-colors duration-150"
+        [style.color]="'#6B7280'"
+        onmouseover="this.style.color='#111827'"
+        onmouseout="this.style.color='#6B7280'"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        <span class="text-sm font-medium">Back to Jobs</span>
+      </button>
+
+      <h1 class="text-3xl font-bold mb-1" [style.color]="'#222831'">
+        {{ isEditMode ? 'Edit Job Posting' : 'Create New Job Posting' }}
+      </h1>
+      <p class="text-gray-500 text-sm">
+        {{
+          isEditMode
+            ? 'Update the job details below'
+            : 'Fill in the details to create a new job posting'
+        }}
+      </p>
+    </div>
+
+    <!-- Form -->
+    <form (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Basic Information Card -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-primary mb-6">Basic Information</h2>
+
+        <div class="space-y-4">
+          <!-- Job Title -->
+          <div>
+            <label for="jobTitle" class="block text-sm font-semibold text-primary mb-2">
+              Job Title <span class="text-error">*</span>
+            </label>
+            <input
+              type="text"
+              id="jobTitle"
+              [(ngModel)]="jobTitle"
+              name="jobTitle"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder="e.g., Senior Frontend Developer"
+            />
+            <p *ngIf="errors['jobTitle']" class="mt-1 text-sm text-error">
+              {{ errors['jobTitle'] }}
+            </p>
+          </div>
+
+          <!-- Company -->
+          <div>
+            <label for="company" class="block text-sm font-semibold text-primary mb-2">
+              Company <span class="text-error">*</span>
+            </label>
+            <input
+              type="text"
+              id="company"
+              [(ngModel)]="company"
+              name="company"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder="e.g., Tech Corp"
+            />
+            <p *ngIf="errors['company']" class="mt-1 text-sm text-error">{{ errors['company'] }}</p>
+          </div>
+
+          <!-- Location -->
+          <div>
+            <label for="location" class="block text-sm font-semibold text-primary mb-2">
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              [(ngModel)]="location"
+              name="location"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder="e.g., Remote, New York, NY"
+            />
+          </div>
+
+          <!-- Job Type -->
+          <div>
+            <label for="jobType" class="block text-sm font-semibold text-primary mb-2">
+              Job Type
+            </label>
+            <select
+              id="jobType"
+              [(ngModel)]="jobType"
+              name="jobType"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Contract">Contract</option>
+              <option value="Internship">Internship</option>
+            </select>
+          </div>
+
+          <!-- Salary Range -->
+          <div>
+            <label for="salaryRange" class="block text-sm font-semibold text-primary mb-2">
+              Salary Range
+            </label>
+            <input
+              type="text"
+              id="salaryRange"
+              [(ngModel)]="salaryRange"
+              name="salaryRange"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder="e.g., $80,000 - $120,000"
+            />
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label for="description" class="block text-sm font-semibold text-primary mb-2">
+              Job Description <span class="text-error">*</span>
+            </label>
+            <textarea
+              id="description"
+              [(ngModel)]="description"
+              name="description"
+              rows="6"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+              placeholder="Describe the job role, responsibilities, and what you're looking for..."
+            ></textarea>
+            <p *ngIf="errors['description']" class="mt-1 text-sm text-error">
+              {{ errors['description'] }}
+            </p>
+          </div>
+
+          <!-- Requirements -->
+          <div>
+            <label for="requirements" class="block text-sm font-semibold text-primary mb-2">
+              Requirements
+            </label>
+            <textarea
+              id="requirements"
+              [(ngModel)]="requirements"
+              name="requirements"
+              rows="4"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+              placeholder="List the required qualifications, skills, and experience..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skill Pathway Builder Card -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h2 class="text-2xl font-bold text-primary">Skill Pathway Builder</h2>
+            <p class="text-sm text-gray-600 mt-1">Attach courses and set required passing scores</p>
+          </div>
+          <button
+            type="button"
+            (click)="toggleCourseSelector()"
+            class="bg-primary hover:bg-primary-variant text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Add Course
+          </button>
+        </div>
+
+        <!-- Course Selector Modal -->
+        <div
+          *ngIf="showCourseSelector"
+          class="mb-6 p-4 border-2 border-secondary rounded-lg bg-gray-50"
+        >
+          <h3 class="text-lg font-semibold text-primary mb-3">Select a Course</h3>
+          <div class="space-y-2">
+            <button
+              *ngFor="let course of availableCourses"
+              type="button"
+              (click)="addCourse(course)"
+              [disabled]="course.selected"
+              [class.opacity-50]="course.selected"
+              [class.cursor-not-allowed]="course.selected"
+              class="w-full text-left px-4 py-3 border border-gray-300 rounded-lg hover:bg-secondary transition-colors duration-150"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-medium text-primary">{{ course.name }}</span>
+                <span *ngIf="course.selected" class="text-sm text-gray-500">Already added</span>
+              </div>
+            </button>
+          </div>
+          <button
+            type="button"
+            (click)="toggleCourseSelector()"
+            class="mt-3 text-sm text-gray-600 hover:text-primary font-semibold"
+          >
+            Cancel
+          </button>
+        </div>
+
+        <!-- Skill Pathways List -->
+        <div *ngIf="skillPathways.length > 0" class="space-y-4">
+          <div
+            *ngFor="let pathway of skillPathways; let i = index"
+            class="p-4 border-2 border-gray-200 rounded-lg hover:border-secondary transition-colors duration-150"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-semibold text-primary mb-3">{{ pathway.courseName }}</h3>
+                <div class="flex items-center gap-4">
+                  <label class="text-sm font-semibold text-primary">
+                    Required Passing Score:
+                  </label>
+                  <input
+                    type="number"
+                    [(ngModel)]="pathway.requiredPassingScore"
+                    [name]="'score-' + i"
+                    min="0"
+                    max="100"
+                    class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                  <span class="text-sm text-gray-600">%</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                (click)="removeCourse(pathway)"
+                class="text-error hover:text-red-700 font-semibold transition-colors duration-150"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="skillPathways.length === 0" class="text-center py-8 text-gray-500">
+          <svg
+            class="mx-auto h-12 w-12 text-gray-400 mb-3"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+            />
+          </svg>
+          <p class="font-medium">No courses added yet</p>
+          <p class="text-sm">Click "Add Course" to build your skill pathway</p>
+        </div>
+
+        <p *ngIf="errors['skillPathways']" class="mt-3 text-sm text-error">
+          {{ errors['skillPathways'] }}
+        </p>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex justify-end gap-4">
+        <button
+          type="button"
+          (click)="cancel()"
+          class="px-6 py-3 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-gray-50 transition-colors duration-200"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-6 py-3 bg-primary hover:bg-primary-variant text-white font-semibold rounded-lg transition-colors duration-200"
+        >
+          {{ isEditMode ? 'Update Job' : 'Create Job' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
