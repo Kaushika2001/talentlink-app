@@ -1,0 +1,99 @@
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">
+      <h1>TalentLink</h1>
+    </div>
+    <ul class="nav-menu">
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a href="#jobs">All Jobs</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#login" class="login-btn">Login</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Find Your Dream Career</h1>
+    <p class="hero-subtitle">Join our companies and grow with industry-leading training programs</p>
+    
+    <!-- Main Search Bar -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        class="search-input" 
+        placeholder="Search for jobs, skills, or companies..."
+        [(ngModel)]="searchQuery"
+      >
+      <button class="search-btn" (click)="onSearch()">
+        <span>Search</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Company Filter Links -->
+<section class="companies-section">
+  <div class="container">
+    <h2 class="section-title">Explore Our Companies</h2>
+    <div class="companies-grid">
+      <div class="company-card" *ngFor="let company of companies" (click)="filterByCompany(company.name)">
+        <div class="company-icon">{{ company.icon }}</div>
+        <h3>{{ company.name }}</h3>
+        <p>{{ company.openPositions }} open positions</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Jobs Grid -->
+<section class="featured-jobs-section">
+  <div class="container">
+    <h2 class="section-title">Featured Opportunities</h2>
+    <div class="jobs-grid">
+      <div class="job-card" *ngFor="let job of featuredJobs">
+        <div class="job-header">
+          <h3 class="job-title">{{ job.title }}</h3>
+          <span class="job-type-badge">{{ job.type }}</span>
+        </div>
+        <p class="job-company">{{ job.company }}</p>
+        <p class="job-location">📍 {{ job.location }}</p>
+        <p class="job-description">{{ job.description }}</p>
+        <div class="job-footer">
+          <button class="btn-view-details" (click)="viewJobDetails(job.id)">View Details</button>
+          <button class="btn-apply" (click)="applyNow(job.id)">Apply Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>TalentLink</h3>
+        <p>Connecting talent with opportunity through innovative learning</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#jobs">Browse Jobs</a></li>
+          <li><a routerLink="/register">Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Email: careers@talentlink.com</p>
+        <p>Phone: (555) 123-4567</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 TalentLink. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

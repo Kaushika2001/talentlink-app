@@ -1,0 +1,402 @@
+/* Apply Nunito font globally for this component */
+* {
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Navigation Bar */
+.navbar {
+  background-color: #222831;
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo h1 {
+  color: #FFFFFF;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.company-tagline {
+  color: #DFD0B8;
+  font-size: 0.75rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu a {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  color: #DFD0B8;
+}
+
+.login-btn {
+  background-color: #393E46;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  color: white !important;
+}
+
+.login-btn:hover {
+  background-color: #222831;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #222831 0%, #393E46 100%);
+  padding: 6rem 2rem;
+  text-align: center;
+  color: white;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.95;
+  color: #DFD0B8;
+}
+
+/* Search Container */
+.search-container {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.search-input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  font-family: 'Nunito', sans-serif;
+}
+
+.search-btn {
+  background-color: #393E46;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  font-family: 'Nunito', sans-serif;
+}
+
+.search-btn:hover {
+  background-color: #222831;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Companies Section */
+.companies-section {
+  padding: 4rem 0;
+  background-color: #FFFFFF;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #222831;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: #393E46;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.companies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.company-card {
+  background: #FFFFFF;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(34, 40, 49, 0.1);
+  border: 1px solid #DFD0B8;
+}
+
+.company-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(34, 40, 49, 0.15);
+  border-color: #393E46;
+}
+
+.company-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.company-card h3 {
+  color: #222831;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.company-desc {
+  color: #393E46;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.company-positions {
+  color: #393E46;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Featured Jobs Section */
+.featured-jobs-section {
+  padding: 4rem 0;
+  background-color: #F8F9FA;
+}
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.job-card {
+  background: #FFFFFF;
+  border: 1px solid #DFD0B8;
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: box-shadow 0.3s;
+}
+
+.job-card:hover {
+  box-shadow: 0 6px 16px rgba(34, 40, 49, 0.15);
+  border-color: #393E46;
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 0.5rem;
+}
+
+.job-title {
+  color: #222831;
+  font-size: 1.3rem;
+  margin: 0;
+  flex: 1;
+  font-weight: 700;
+}
+
+.job-type-badge {
+  background-color: #DFD0B8;
+  color: #222831;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.job-company {
+  color: #393E46;
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+.job-location {
+  color: #393E46;
+  font-size: 0.9rem;
+  margin: 0.3rem 0;
+}
+
+.job-description {
+  color: #555;
+  margin: 1rem 0;
+  line-height: 1.6;
+}
+
+.job-footer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-view-details,
+.btn-learn-apply {
+  flex: 1;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn-view-details {
+  background-color: #FFFFFF;
+  color: #222831;
+  border: 2px solid #222831;
+}
+
+.btn-view-details:hover {
+  background-color: #222831;
+  color: #FFFFFF;
+}
+
+.btn-learn-apply {
+  background-color: #222831;
+  color: #FFFFFF;
+}
+
+.btn-learn-apply:hover {
+  background-color: #393E46;
+}
+
+/* About Section */
+.about-section {
+  padding: 4rem 0;
+  background-color: #FFFFFF;
+}
+
+.about-text {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  color: #393E46;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+/* Footer */
+.footer {
+  background-color: #222831;
+  color: #FFFFFF;
+  padding: 3rem 0 1rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+  color: #FFFFFF;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.footer-section h4 {
+  color: #DFD0B8;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-section a:hover {
+  color: #DFD0B8;
+}
+
+.footer-section p {
+  color: #FFFFFF;
+  opacity: 0.9;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid #393E46;
+  color: #DFD0B8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .nav-menu {
+    gap: 1rem;
+  }
+  
+  .jobs-grid {
+    grid-template-columns: 1fr;
+  }
+}
