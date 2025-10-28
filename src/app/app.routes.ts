@@ -1,14 +1,31 @@
 import { Routes } from '@angular/router';
-import { CourseLibraryComponent } from './pages/course-library/course-library.component';
-import { CourseBuilderComponent } from './pages/course-builder/course-builder.component';
 
 export const routes: Routes = [
-  // Your existing routes...
+  {
+    // ADMIN PORTAL (Members 1-4)
+    // This loads the merged route file you just created
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.routes').then(m => m.routes)
+    // This tells Angular: "When a user goes to /admin, load the AdminLayout
+    // and all its children (jobs, courses, etc.)"
+  },
   
-  // Admin Course Management Routes
-  { path: 'admin/courses', component: CourseLibraryComponent },
-  { path: 'admin/courses/create', component: CourseBuilderComponent },
-  { path: 'admin/courses/edit/:id', component: CourseBuilderComponent },
-  
+  {
+    // EXTERNAL PORTAL (Members 5-8, 10)
+    // This will have its own layout and routes
+    path: '', 
+    loadChildren: () => import('./external/external.routes').then(m => m.routes)
+    // This makes 'www.yoursite.com' the external homepage
+  },
 
+  {
+    // INTERNAL PORTAL (Members 8-10)
+    // This will have its own layout and routes
+    path: 'portal', 
+    loadChildren: () => import('./internal/internal.routes').then(m => m.routes)
+    // This makes 'www.yoursite.com/portal' the employee login/dashboard
+  },
+  
+  // Add a 404 Not Found page
+  // { path: '**', component: NotFoundComponent } 
 ];
