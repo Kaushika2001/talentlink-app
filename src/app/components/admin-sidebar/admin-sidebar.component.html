@@ -1,3 +1,5 @@
+<!-- src/app/components/admin-sidebar/admin-sidebar.component.html -->
+
 <div
   [class]="
     isSidebarCollapsed ? 'w-20 transition-all duration-300' : 'w-64 transition-all duration-300'
@@ -52,8 +54,8 @@
       <li *ngFor="let item of menuItems">
         <a
           [routerLink]="item.route"
-          (click)="navigate(item.route)"
-          [class.active]="item.active"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
           class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer group"
         >
           <svg

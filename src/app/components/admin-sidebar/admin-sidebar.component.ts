@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+// src/app/components/admin-sidebar/admin-sidebar.component.ts
+import { Component, Output, EventEmitter } from '@angular/core'; // <-- Import Output & EventEmitter
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -10,37 +12,38 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './admin-sidebar.component.css',
 })
 export class AdminSidebarComponent {
+  @Output() sidebarToggled = new EventEmitter<boolean>();
   isSidebarCollapsed = false;
 
   menuItems = [
     {
       icon: 'briefcase',
       label: 'Job Management',
-      route: '/jobs',
+      route: '/admin/jobs',
       active: true,
     },
     {
       icon: 'users',
       label: 'Candidates',
-      route: '/candidates',
+      route: '/admin/candidates',
       active: false,
     },
     {
       icon: 'book',
       label: 'Courses',
-      route: '/courses',
+      route: '/admin/courses',
       active: false,
     },
     {
       icon: 'chart',
       label: 'Analytics',
-      route: '/analytics',
+      route: '/admin/analytics',
       active: false,
     },
     {
       icon: 'settings',
       label: 'Settings',
-      route: '/settings',
+      route: '/admin/settings',
       active: false,
     },
   ];
@@ -49,12 +52,13 @@ export class AdminSidebarComponent {
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    this.sidebarToggled.emit(this.isSidebarCollapsed); 
   }
 
-  navigate(route: string) {
-    this.menuItems.forEach((item) => (item.active = item.route === route));
-    this.router.navigate([route]);
-  }
+  // navigate(route: string) {
+  //   this.menuItems.forEach((item) => (item.active = item.route === route));
+  //   this.router.navigate([route]);
+  // }
 
   getIconPath(icon: string): string {
     const icons: { [key: string]: string } = {

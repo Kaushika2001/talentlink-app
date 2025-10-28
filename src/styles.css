@@ -1,17 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap');
-@import 'tailwindcss';
+/* src/style.css */
 
-:root {
+/* Import the Nunito font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+/* Tailwind v4: import the framework */
+@import "tailwindcss";
+
+/* Tailwind v4 design tokens used across the app */
+@theme {
+  /* Colors */
   --color-primary: #222831;
-  --color-primary-variant: #393e46;
-  --color-secondary: #dfd0b8;
-  --color-error: #b00020;
-  --color-background: #ffffff;
+  --color-primary-variant: #393E46;
+  --color-secondary: #DFD0B8;
+  --color-background: #FFFFFF;
+  --color-error: #B00020;
+
+  /* Fonts */
+  --font-nunito: 'Nunito', sans-serif;
+
+  /* Typography sizes */
+  --text-body: 14pt;
+  --text-h3: 18pt;
+  --text-h2: 22pt;
+  --text-h1: 32pt;
 }
 
+/* Custom components */
+@layer components {
+  /* This is for your sidebar's active link, it's good */
+  .active-nav {
+    @apply bg-secondary text-primary font-bold;
+  }
+}
+
+/* Set the default font and background color for the whole app */
 body {
-  font-family: 'Nunito', sans-serif;
-  background-color: var(--color-background);
-  margin: 0;
-  padding: 0;
+  @apply font-nunito bg-background;
 }

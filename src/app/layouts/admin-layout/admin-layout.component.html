@@ -1,9 +1,13 @@
+<!-- src/app/layouts/admin-layout/admin-layout.component.html -->
+
 <div class="flex min-h-screen bg-background">
   <!-- Sidebar -->
-  <app-admin-sidebar></app-admin-sidebar>
+  <app-admin-sidebar (sidebarToggled)="onSidebarToggle($event)"></app-admin-sidebar>
 
   <!-- Main Content Area -->
-  <div class="flex-1 ml-64 transition-all duration-300">
+  <div class="flex-1 ml-64 transition-all duration-300"
+      [class.ml-64]="!isSidebarCollapsed"
+      [class.ml-20]="isSidebarCollapsed">
     <router-outlet></router-outlet>
   </div>
 </div>

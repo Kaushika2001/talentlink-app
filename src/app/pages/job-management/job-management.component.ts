@@ -33,11 +33,11 @@ export class JobManagementComponent {
   constructor(private router: Router) {}
 
   createNewJob() {
-    this.router.navigate(['/jobs/new']);
+    this.router.navigate(['admin/jobs/new']);
   }
 
   editJob(jobId: number) {
-    this.router.navigate(['/jobs/edit', jobId]);
+    this.router.navigate(['admin/jobs/edit', jobId]);
   }
 
   toggleJobStatus(job: Job) {

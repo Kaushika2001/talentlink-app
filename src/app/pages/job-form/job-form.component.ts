@@ -1,3 +1,5 @@
+// src/app/pages/job-form/job-form.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -63,7 +65,7 @@ export class JobFormComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/jobs']);
+    this.router.navigate(['/admin/jobs']);
   }
 
   loadJobData(id: number) {
@@ -166,10 +168,10 @@ export class JobFormComponent implements OnInit {
 
     // In a real app, save to a service
     alert(this.isEditMode ? 'Job updated successfully!' : 'Job created successfully!');
-    this.router.navigate(['/jobs']);
+    this.router.navigate(['admin/jobs']);
   }
 
   cancel() {
-    this.router.navigate(['/jobs']);
+    this.router.navigate(['admin/jobs']);
   }
 }
