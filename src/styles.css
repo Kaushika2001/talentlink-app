@@ -6,6 +6,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom components */
+@layer components {
+  .active-nav {
+    @apply bg-secondary text-primary font-bold;
+  }
+}
+
 /* Set the default font and background color for the whole app */
 body {
   @apply font-nunito bg-background;

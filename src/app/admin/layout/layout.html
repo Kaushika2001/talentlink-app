@@ -1,0 +1,28 @@
+<div class="flex h-screen font-nunito bg-background text-primary"> <aside class="w-64 bg-primary text-white flex flex-col shadow-lg"> <div class="p-6 text-center border-b border-primary-variant"> <h1 class="text-h3 font-bold">TalentLink</h1>
+      <span class="text-sm text-gray-400">Admin Portal</span>
+    </div>
+    
+    <nav class="flex-1 px-4 py-4 space-y-2"> <a routerLink="/admin"
+         routerLinkActive="active-nav"
+         [routerLinkActiveOptions]="{exact: true}"
+         class="flex items-center px-4 py-3 rounded-lg text-body hover:bg-primary-variant transition-colors duration-200"> <span>Dashboard</span>
+      </a>
+      
+      <a routerLink="/admin/applicants"
+         routerLinkActive="active-nav"
+         class="flex items-center px-4 py-3 rounded-lg text-body hover:bg-primary-variant transition-colors duration-200"> <span>Applicant Management</span>
+      </a>
+
+      <a routerLink="/admin/employees"
+         routerLinkActive="active-nav"
+         class="flex items-center px-4 py-3 rounded-lg text-body hover:bg-primary-variant transition-colors duration-200"> <span>Employee Management</span>
+      </a>
+      </nav>
+
+    <div class="p-4 mt-auto text-center text-xs text-gray-500 border-t border-primary-variant"> © 2025 TalentLink
+    </div>
+  </aside>
+  
+  <main class="flex-1 p-8 overflow-y-auto"> <router-outlet></router-outlet> </main>
+
+</div>
